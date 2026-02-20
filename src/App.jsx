@@ -8,42 +8,46 @@ import Login from './pages/Login.jsx'
 import Layout from './pages/Layout.jsx'
 import { useDispatch } from 'react-redux'
 import api from './configs/api.js'
-import { setLoading } from './app/features/authSlice.js'
-import {Toaster} from 'react-hot-toast'
-
+import { login, setLoading } from './app/features/authSlice.js' // ✅ FIXED
+import { Toaster } from 'react-hot-toast'
 
 const App = () => {
-
   const dispatch = useDispatch()
 
   const getUserData = async () => {
-      const token = localStorage.getItem('token')
+    const token = localStorage.getItem('token')
 
-      try {
-        if(token) {
-          const {data} = await api.get('/api/users/data', {headers: {
-            Authorization:token }})
-        if(data.user) {
-          dispatch(Login({token, user: data.user}))
+    try {
+      if (token) {
+        const { data } = await api.get('/api/users/data', {
+          headers: {
+            Authorization: `Bearer ${token}`, // ✅ FIXED
+          },
+        })
+
+        if (data.user) {
+          dispatch(login({ token, user: data.user })) // ✅ FIXED
         }
+
         dispatch(setLoading(false))
-        } else {
-          dispatch(setLoading(false))
-        }
-      } catch (error) {
+      } else {
         dispatch(setLoading(false))
-        console.log(error.message)
       }
-   }
+    } catch (error) {
+      dispatch(setLoading(false))
+      console.log(error.message)
+      localStorage.removeItem('token') // ✅ IMPORTANT safety
+    }
+  }
 
-   useEffect(() => {
+  useEffect(() => {
     getUserData()
-   // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <>
-    <Toaster/>
+      <Toaster />
       <Routes>
         <Route path='/' element={<Home />} />
 
@@ -53,8 +57,6 @@ const App = () => {
         </Route>
 
         <Route path='view/:resumeId' element={<Preview />} />
-        
-       
       </Routes>
     </>
   )
