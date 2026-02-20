@@ -8,42 +8,50 @@ import Login from './pages/Login.jsx'
 import Layout from './pages/Layout.jsx'
 import { useDispatch } from 'react-redux'
 import api from './configs/api.js'
-import { setLoading } from './app/features/authSlice.js'
-import {Toaster} from 'react-hot-toast'
-
+import { login, setLoading } from './app/features/authSlice.js'
+import { Toaster } from 'react-hot-toast'
 
 const App = () => {
-
   const dispatch = useDispatch()
 
-  const getUserData = async () => {
+  useEffect(() => {
+    const getUserData = async () => {
       const token = localStorage.getItem('token')
 
-      try {
-        if(token) {
-          const {data} = await api.get('/api/users/data', {headers: {
-            Authorization:token }})
-        if(data.user) {
-          dispatch(Login({token, user: data.user}))
-        }
+      if (!token) {
         dispatch(setLoading(false))
-        } else {
-          dispatch(setLoading(false))
+        return
+      }
+
+      try {
+        const { data } = await api.get('/api/users/data', {
+          headers: {
+            Authorization: `Bearer ${token}`, // ✅ FIXED
+          },
+        })
+
+        if (data.user) {
+          dispatch(
+            login({
+              token,
+              user: data.user,
+            })
+          )
         }
       } catch (error) {
+        console.log('Auth restore failed:', error.message)
+        localStorage.removeItem('token') // ✅ important cleanup
+      } finally {
         dispatch(setLoading(false))
-        console.log(error.message)
       }
-   }
+    }
 
-   useEffect(() => {
     getUserData()
-   // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [])
+  }, [dispatch])
 
   return (
     <>
-    <Toaster/>
+      <Toaster />
       <Routes>
         <Route path='/' element={<Home />} />
 
@@ -53,8 +61,6 @@ const App = () => {
         </Route>
 
         <Route path='view/:resumeId' element={<Preview />} />
-        
-       
       </Routes>
     </>
   )
