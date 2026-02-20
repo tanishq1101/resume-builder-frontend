@@ -95,17 +95,10 @@ const Login = () => {
 
    
     const allowedOrigins = new Set([
-      FRONTEND_ORIGIN,
-      window.location.origin,
-      (() => {
-        try {
-          return new URL(API_BASE).origin;
-        // eslint-disable-next-line no-unused-vars
-        } catch (e) {
-          return null;
-        }
-      })()
-    ].filter(Boolean));
+  window.location.origin,
+  FRONTEND_ORIGIN,
+  API_BASE ? new URL(API_BASE).origin : null
+].filter(Boolean));
 
     const messageListener = async (e) => {
       console.log('[Google] message received', e.origin, e.data);
@@ -121,7 +114,10 @@ const Login = () => {
         return;
       }
 
-      const token = e.data && (e.data.token || e.data?.accessToken || null);
+      const token =
+  typeof e.data === "object" && e.data !== null
+    ? e.data.token || e.data.accessToken
+    : null;
       if (!token) {
         console.warn('[Google] no token found in message data', e.data);
         return;
