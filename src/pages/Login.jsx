@@ -10,10 +10,10 @@ import { login } from '../app/features/authSlice.js'
 
 const GoogleIcon = ({ className }) => (
   <svg className={className} viewBox="0 0 48 48" width="20" height="20">
-    <path fill="#EA4335" d="M24 9.5c3.7 0 6.2 1.6 7.6 2.9l5.6-5.2C34.6 4 29.9 2.5 24 2.5 14.7 2.5 6.9 7.9 3.1 15.6l6 4.6C11.3 13.8 17 9.5 24 9.5z"/>
-    <path fill="#34A853" d="M46.5 24.5c0-1.6-.1-2.8-.4-4.1H24v7.8h12.6c-.5 3.1-2.9 6-7.6 8l5.9 4.6C42.8 37.8 46.5 31.6 46.5 24.5z"/>
-    <path fill="#4A90E2" d="M9.1 28.2A14.7 14.7 0 0 1 8 24.5c0-1.7.3-3.3.8-4.7L3.1 15.2C1 19.2 0 23.7 0 28.5c0 4.8 1 9.3 3.1 13.3l6-4.6z"/>
-    <path fill="#FBBC05" d="M24 46.5c6 0 10.7-2 14.2-5.5l-6-4.6c-2 1.5-5.1 2.7-8.2 2.7-7 0-12.8-4.3-14.9-10.1l-6 4.6C6.9 40.6 14.7 46.5 24 46.5z"/>
+    <path fill="#EA4335" d="M24 9.5c3.7 0 6.2 1.6 7.6 2.9l5.6-5.2C34.6 4 29.9 2.5 24 2.5 14.7 2.5 6.9 7.9 3.1 15.6l6 4.6C11.3 13.8 17 9.5 24 9.5z" />
+    <path fill="#34A853" d="M46.5 24.5c0-1.6-.1-2.8-.4-4.1H24v7.8h12.6c-.5 3.1-2.9 6-7.6 8l5.9 4.6C42.8 37.8 46.5 31.6 46.5 24.5z" />
+    <path fill="#4A90E2" d="M9.1 28.2A14.7 14.7 0 0 1 8 24.5c0-1.7.3-3.3.8-4.7L3.1 15.2C1 19.2 0 23.7 0 28.5c0 4.8 1 9.3 3.1 13.3l6-4.6z" />
+    <path fill="#FBBC05" d="M24 46.5c6 0 10.7-2 14.2-5.5l-6-4.6c-2 1.5-5.1 2.7-8.2 2.7-7 0-12.8-4.3-14.9-10.1l-6 4.6C6.9 40.6 14.7 46.5 24 46.5z" />
   </svg>
 )
 
@@ -93,12 +93,12 @@ const Login = () => {
       return;
     }
 
-   
+
     const allowedOrigins = new Set([
-  window.location.origin,
-  FRONTEND_ORIGIN,
-  API_BASE ? new URL(API_BASE).origin : null
-].filter(Boolean));
+      window.location.origin,
+      FRONTEND_ORIGIN,
+      API_BASE ? new URL(API_BASE).origin : null
+    ].filter(Boolean));
 
     const messageListener = async (e) => {
       console.log('[Google] message received', e.origin, e.data);
@@ -115,9 +115,9 @@ const Login = () => {
       }
 
       const token =
-  typeof e.data === "object" && e.data !== null
-    ? e.data.token || e.data.accessToken
-    : null;
+        typeof e.data === "object" && e.data !== null
+          ? e.data.token || e.data.accessToken
+          : null;
       if (!token) {
         console.warn('[Google] no token found in message data', e.data);
         return;
@@ -159,15 +159,15 @@ const Login = () => {
 
     const closeCheck = setInterval(() => {
       try {
-        
+
         if (!popup || popup.closed) {
           clearInterval(closeCheck);
           clearTimeout(timeout);
           window.removeEventListener("message", messageListener);
         }
-      // eslint-disable-next-line no-unused-vars
+        // eslint-disable-next-line no-unused-vars
       } catch (err) {
-       
+
         clearInterval(closeCheck);
       }
     }, 500);
@@ -175,28 +175,28 @@ const Login = () => {
 
   // =================== RETURN UI ===================
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <form onSubmit={handleSubmit} className="sm:w-87.5 w-full text-center border border-gray-300/60 rounded-2xl px-8 bg-white">
-        <h1 className="text-gray-900 text-3xl mt-10 font-medium">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 px-4 transition-colors duration-300">
+      <form onSubmit={handleSubmit} className="sm:w-87.5 w-full text-center border border-gray-300/60 dark:border-gray-700 rounded-2xl px-8 bg-white dark:bg-gray-900 transition-colors duration-300">
+        <h1 className="text-gray-900 dark:text-gray-100 text-3xl mt-10 font-medium">
           {state === "login" ? "Login" : "Sign up"}
         </h1>
 
         {state !== "login" && (
-          <div className="flex items-center mt-6 border h-12 rounded-full pl-6 gap-2">
-            <User2Icon size={16} />
+          <div className="flex items-center mt-6 border dark:border-gray-600 h-12 rounded-full pl-6 gap-2">
+            <User2Icon size={16} className="text-gray-500 dark:text-gray-400" />
             <input type="text" name="name" placeholder="Name"
               value={formData.name} onChange={handleChange} required />
           </div>
         )}
 
-        <div className="flex items-center mt-4 border h-12 rounded-full pl-6 gap-2">
-          <Mail size={12} />
+        <div className="flex items-center mt-4 border dark:border-gray-600 h-12 rounded-full pl-6 gap-2">
+          <Mail size={12} className="text-gray-500 dark:text-gray-400" />
           <input type="email" name="email" placeholder="Email"
             value={formData.email} onChange={handleChange} required />
         </div>
 
-        <div className="flex items-center mt-4 border h-12 rounded-full pl-6 gap-2">
-          <Lock size={12} />
+        <div className="flex items-center mt-4 border dark:border-gray-600 h-12 rounded-full pl-6 gap-2">
+          <Lock size={12} className="text-gray-500 dark:text-gray-400" />
           <input type="password" name="password" placeholder="Password"
             value={formData.password} onChange={handleChange} required />
         </div>
@@ -208,30 +208,30 @@ const Login = () => {
         </div>
 
         <button type="submit" className="mt-2 w-full h-11 rounded-full text-white bg-green-500 hover:opacity-90 transition-opacity">
-  {state === "login" ? "Login" : "Sign up"}
-</button>
+          {state === "login" ? "Login" : "Sign up"}
+        </button>
 
-{/* OR Divider */}
-<div className="flex items-center my-4">
-  <div className="grow h-px bg-gray-300"></div>
-  <span className="px-3 text-gray-500 text-sm">OR</span>
-  <div className="grow h-px bg-gray-300"></div>
-</div>
+        {/* OR Divider */}
+        <div className="flex items-center my-4">
+          <div className="grow h-px bg-gray-300 dark:bg-gray-600"></div>
+          <span className="px-3 text-gray-500 dark:text-gray-400 text-sm">OR</span>
+          <div className="grow h-px bg-gray-300 dark:bg-gray-600"></div>
+        </div>
 
-{/* Google sign-in button */}
-<div>
-  <button
-    type="button"
-    onClick={handleGoogleSignIn}
-    className="w-full h-11 rounded-full border border-gray-300 flex items-center justify-center gap-3 hover:shadow-sm transition"
-  >
-    <GoogleIcon />
-    <span className="text-sm">Continue with Google</span>
-  </button>
-</div>
+        {/* Google sign-in button */}
+        <div>
+          <button
+            type="button"
+            onClick={handleGoogleSignIn}
+            className="w-full h-11 rounded-full border border-gray-300 dark:border-gray-600 flex items-center justify-center gap-3 hover:shadow-sm transition bg-white dark:bg-gray-800 dark:text-gray-200"
+          >
+            <GoogleIcon />
+            <span className="text-sm">Continue with Google</span>
+          </button>
+        </div>
 
 
-        <p onClick={() => setState(prev => prev === "login" ? "register" : "login")} className="text-gray-500 text-sm mt-3 mb-11">
+        <p onClick={() => setState(prev => prev === "login" ? "register" : "login")} className="text-gray-500 dark:text-gray-400 text-sm mt-3 mb-11 cursor-pointer">
           {state === "login" ? "Don't have an account?" : "Already have an account?"} <a className="text-green-500 hover:underline">click here</a>
         </p>
       </form>

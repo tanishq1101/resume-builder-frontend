@@ -1,28 +1,47 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 * {
   font-family: 'Outfit', sans-serif;
 }
 
+/* Dark mode base styles */
+html.dark {
+  color-scheme: dark;
+}
+
 @layer base {
+  body {
+    @apply bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100 transition-colors duration-300;
+  }
+
   button {
     @apply cursor-pointer;
   }
+
   input:not([type="checkbox"]) {
-    @apply outline-none focus:ring border border-gray-300
-      focus:ring-blue-500 focus:border-blue-500 rounded-lg ;
+    @apply outline-none focus:ring border border-gray-300 focus:ring-blue-500 focus:border-blue-500 rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-400 dark:focus:border-blue-400 dark:placeholder-gray-400;
   }
+
   textarea {
-    @apply outline-none focus:ring border border-gray-300
-      focus:ring-blue-500 focus:border-blue-500 rounded-lg resize-none;
+    @apply outline-none focus:ring border border-gray-300 focus:ring-blue-500 focus:border-blue-500 rounded-lg resize-none dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-400 dark:focus:border-blue-400 dark:placeholder-gray-400;
   }
 }
 
 @keyframes softgradient {
-  0% { background-position: 0% 0%; }
-  50% { background-position: 100% 100%; }
-  100% { background-position: 0% 0%; }
+  0% {
+    background-position: 0% 0%;
+  }
+
+  50% {
+    background-position: 100% 100%;
+  }
+
+  100% {
+    background-position: 0% 0%;
+  }
 }
 
 .animate-softgradient {
@@ -30,10 +49,21 @@
 }
 
 @keyframes blob {
-  0%   { transform: translate(0px, 0px) scale(1); }
-  33%  { transform: translate(40px, -30px) scale(1.1); }
-  66%  { transform: translate(-30px, 20px) scale(0.9); }
-  100% { transform: translate(0px, 0px) scale(1); }
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+
+  33% {
+    transform: translate(40px, -30px) scale(1.1);
+  }
+
+  66% {
+    transform: translate(-30px, 20px) scale(0.9);
+  }
+
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
 }
 
 .animate-blob {
@@ -47,9 +77,17 @@
 
 /* Animated soft gradient */
 @keyframes softGradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .animate-soft-gradient {
@@ -58,10 +96,21 @@
 
 /* Floating blobs */
 @keyframes floatBlob {
-  0%   { transform: translate(0, 0) scale(1); }
-  33%  { transform: translate(40px, -30px) scale(1.05); }
-  66%  { transform: translate(-30px, 20px) scale(0.95); }
-  100% { transform: translate(0, 0) scale(1); }
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(40px, -30px) scale(1.05);
+  }
+
+  66% {
+    transform: translate(-30px, 20px) scale(0.95);
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
 }
 
 .blob {
@@ -70,9 +119,20 @@
 
 /* particle dots */
 @keyframes particleFloat {
-  0% { transform: translateY(0px); opacity: 0.3; }
-  50% { transform: translateY(-20px); opacity: 0.6; }
-  100% { transform: translateY(0px); opacity: 0.3; }
+  0% {
+    transform: translateY(0px);
+    opacity: 0.3;
+  }
+
+  50% {
+    transform: translateY(-20px);
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: translateY(0px);
+    opacity: 0.3;
+  }
 }
 
 .particle {
@@ -88,9 +148,11 @@
   0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }
@@ -100,4 +162,3 @@
   background-size: 300% 300%;
   animation: gradient 12s ease infinite;
 }
-

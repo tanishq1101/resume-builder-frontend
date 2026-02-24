@@ -188,19 +188,19 @@ const Dashboard = () => {
 
   useEffect(() => {
     loadAllResumes();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-      <div className="relative min-h-screen overflow-hidden">
-    {/* Animated background */}
-    <div className="absolute inset-0 -z-10 bg-linear-to-br from-indigo-100 via-purple-100 to-pink-100 animate-gradient" />
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Animated background */}
+      <div className="absolute inset-0 -z-10 bg-linear-to-br from-indigo-100 via-purple-100 to-pink-100 dark:from-gray-900 dark:via-purple-950/30 dark:to-indigo-950/30 animate-gradient transition-colors duration-300" />
 
-    {/* Subtle noise / blur layer */}
-    <div className="absolute inset-0 -z-10 backdrop-blur-[2px]" />
+      {/* Subtle noise / blur layer */}
+      <div className="absolute inset-0 -z-10 backdrop-blur-[2px]" />
 
-    <div className="max-w-7xl mx-auto px-4 py-8">
-        <p className="text-2xl font-medium mb-6 bg-linear-to-r from-slate-600 to-slate-700 bg-clip-text text-transparent sm:hidden">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <p className="text-2xl font-medium mb-6 bg-linear-to-r from-slate-600 to-slate-700 dark:from-gray-300 dark:to-gray-400 bg-clip-text text-transparent sm:hidden">
           Welcome, Alexandra Acosta
         </p>
 
@@ -208,13 +208,13 @@ const Dashboard = () => {
           {/* Create Resume Button */}
           <button
             onClick={() => setShowCreateResume(true)}
-            className="w-full bg-white sm:max-w-36 h-48 flex flex-col items-center
-          justify-center rounded-lg gap-2 text-slate-600 border border-dashed
-          border-slate-300 group hover:border-indigo-500 hover:shadow-lg transition-all duration-300 cursor-pointer"
+            className="w-full bg-white dark:bg-gray-800 sm:max-w-36 h-48 flex flex-col items-center
+          justify-center rounded-lg gap-2 text-slate-600 dark:text-gray-300 border border-dashed
+          border-slate-300 dark:border-gray-600 group hover:border-indigo-500 dark:hover:border-indigo-400 hover:shadow-lg transition-all duration-300 cursor-pointer"
           >
             <PlusIcon className="size-11 transition-all duration-300 p-2.5 
             bg-linear-to-br from-indigo-300 to-indigo-500 text-white rounded-full" />
-            <p className="text-sm group-hover:text-indigo-600 transition-all duration-300">
+            <p className="text-sm group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-all duration-300">
               Create Resume
             </p>
           </button>
@@ -222,19 +222,19 @@ const Dashboard = () => {
           {/* Upload Resume Button */}
           <button
             onClick={() => setShowUploadResume(true)}
-            className="w-full bg-white sm:max-w-36 h-48 flex flex-col items-center
-          justify-center rounded-lg gap-2 text-slate-600 border border-dashed
-          border-slate-300 group hover:border-purple-500 hover:shadow-lg transition-all duration-300 cursor-pointer"
+            className="w-full bg-white dark:bg-gray-800 sm:max-w-36 h-48 flex flex-col items-center
+          justify-center rounded-lg gap-2 text-slate-600 dark:text-gray-300 border border-dashed
+          border-slate-300 dark:border-gray-600 group hover:border-purple-500 dark:hover:border-purple-400 hover:shadow-lg transition-all duration-300 cursor-pointer"
           >
             <UploadCloudIcon className="size-11 transition-all duration-300 p-2.5 
             bg-linear-to-br from-purple-300 to-purple-500 text-white rounded-full" />
-            <p className="text-sm group-hover:text-purple-600 transition-all duration-300">
+            <p className="text-sm group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-all duration-300">
               Upload Existing
             </p>
           </button>
         </div>
 
-        <hr className="border-slate-400 my-6 sm:w-[305px]" />
+        <hr className="border-slate-400 dark:border-gray-600 my-6 sm:w-[305px]" />
 
         {/* Resume Cards */}
         <div className="grid grid-cols-2 sm:flex flex-wrap gap-4">
@@ -286,14 +286,14 @@ const Dashboard = () => {
                   >
                     <TrashIcon
                       onClick={() => resume?._id && deleteResume(resume._id)}
-                      className="size-7 p-1.5 hover:bg-white/50 rounded text-slate transition-colors"
+                      className="size-7 p-1.5 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded text-slate transition-colors"
                     />
                     <PencilIcon
                       onClick={() => {
                         setEditResumeId(resume?._id || "");
                         setTitle(resume?.title || "");
                       }}
-                      className="size-7 p-1.5 hover:bg-white/50 rounded text-slate transition-colors"
+                      className="size-7 p-1.5 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded text-slate transition-colors"
                     />
                   </div>
                 </button>
@@ -312,10 +312,10 @@ const Dashboard = () => {
           >
             <div
               onClick={(e) => e.stopPropagation()}
-              className="relative bg-slate-50 border shadow-md rounded-lg 
+              className="relative bg-slate-50 dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded-lg 
             w-full max-w-sm p-6"
             >
-              <h2 className="text-xl font-bold mb-4">Create a Resume</h2>
+              <h2 className="text-xl font-bold mb-4 dark:text-gray-100">Create a Resume</h2>
               <input
                 onChange={(e) => setTitle(e.target.value)}
                 value={title}
@@ -331,8 +331,8 @@ const Dashboard = () => {
               </button>
 
               <XIcon
-                className="absolute top-4 right-4 text-slate-400
-              hover:text-slate-600 cursor-pointer transition-colors"
+                className="absolute top-4 right-4 text-slate-400 dark:text-gray-500
+              hover:text-slate-600 dark:hover:text-gray-300 cursor-pointer transition-colors"
                 onClick={() => {
                   setShowCreateResume(false);
                   setTitle("");
@@ -352,10 +352,10 @@ const Dashboard = () => {
           >
             <div
               onClick={(e) => e.stopPropagation()}
-              className="relative bg-slate-50 border shadow-md rounded-lg 
+              className="relative bg-slate-50 dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded-lg 
             w-full max-w-sm p-6"
             >
-              <h2 className="text-xl font-bold mb-4">Upload Resume</h2>
+              <h2 className="text-xl font-bold mb-4 dark:text-gray-100">Upload Resume</h2>
 
               <input
                 onChange={(e) => setTitle(e.target.value)}
@@ -367,15 +367,15 @@ const Dashboard = () => {
               />
 
               <div>
-                <label htmlFor="resume-input" className="block text-sm text-slate-700">
+                <label htmlFor="resume-input" className="block text-sm text-slate-700 dark:text-gray-300">
                   Select Resume File
                   <div
-                    className="flex flex-col items-center justify-center gap-2 border group text-slate-400
-                  border-slate-400 border-dashed rounded-md p-4 py-10 my-10 cursor-pointer
+                    className="flex flex-col items-center justify-center gap-2 border group text-slate-400 dark:text-gray-500
+                  border-slate-400 dark:border-gray-600 border-dashed rounded-md p-4 py-10 my-10 cursor-pointer
                   hover:border-green-600 hover:text-green-600 transition-colors"
                   >
                     {resume ? (
-                      <p className="text-green-700">{resume.name}</p>
+                      <p className="text-green-700 dark:text-green-400">{resume.name}</p>
                     ) : (
                       <>
                         <UploadCloud className="size-14 stroke-1" />
@@ -404,8 +404,8 @@ const Dashboard = () => {
               </button>
 
               <XIcon
-                className="absolute top-4 right-4 text-slate-400
-              hover:text-slate-600 cursor-pointer transition-colors"
+                className="absolute top-4 right-4 text-slate-400 dark:text-gray-500
+              hover:text-slate-600 dark:hover:text-gray-300 cursor-pointer transition-colors"
                 onClick={() => {
                   setShowUploadResume(false);
                   setTitle("");
@@ -425,10 +425,10 @@ const Dashboard = () => {
           >
             <div
               onClick={(e) => e.stopPropagation()}
-              className="relative bg-slate-50 border shadow-md rounded-lg 
+              className="relative bg-slate-50 dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded-lg 
             w-full max-w-sm p-6"
             >
-              <h2 className="text-xl font-bold mb-4">Edit Resume Title</h2>
+              <h2 className="text-xl font-bold mb-4 dark:text-gray-100">Edit Resume Title</h2>
 
               <input
                 onChange={(e) => setTitle(e.target.value)}
@@ -445,8 +445,8 @@ const Dashboard = () => {
               </button>
 
               <XIcon
-                className="absolute top-4 right-4 text-slate-400
-              hover:text-slate-600 cursor-pointer transition-colors"
+                className="absolute top-4 right-4 text-slate-400 dark:text-gray-500
+              hover:text-slate-600 dark:hover:text-gray-300 cursor-pointer transition-colors"
                 onClick={() => {
                   setEditResumeId("");
                   setTitle("");

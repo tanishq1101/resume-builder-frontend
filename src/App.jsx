@@ -4,11 +4,12 @@ import Home from './pages/Home.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import ResumeBuilder from './pages/ResumeBuilder.jsx'
 import Preview from './pages/Preview.jsx'
-import Login from './pages/Login.jsx'
+import { login } from './app/features/authSlice.js'
 import Layout from './pages/Layout.jsx'
 import { useDispatch } from 'react-redux'
 import api from './configs/api.js'
 import { setLoading } from './app/features/authSlice.js'
+
 import {Toaster} from 'react-hot-toast'
 
 
@@ -24,7 +25,7 @@ const App = () => {
           const {data} = await api.get('/api/users/data', {headers: {
             Authorization:token }})
         if(data.user) {
-          dispatch(Login({token, user: data.user}))
+          dispatch(login({token, user: data.user}))
         }
         dispatch(setLoading(false))
         } else {
