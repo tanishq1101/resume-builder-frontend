@@ -25,6 +25,10 @@ import PrivacyPage from './pages/footer/PrivacyPage.jsx'
 import TermsPage from './pages/footer/TermsPage.jsx'
 import ContactPage from './pages/footer/ContactPage.jsx'
 
+// Auth pages
+import Login from './pages/Login.jsx'
+import OAuthCallback from './pages/OAuthCallback.jsx'
+import ResetPassword from './pages/ResetPassword.jsx'
 
 const App = () => {
 
@@ -37,7 +41,7 @@ const App = () => {
       if (token) {
         const { data } = await api.get('/api/users/data', {
           headers: {
-            Authorization: token
+            Authorization: `Bearer ${token}`
           }
         })
         if (data.user) {
@@ -82,6 +86,11 @@ const App = () => {
 
         {/* Contact */}
         <Route path='/contact' element={<ContactPage />} />
+
+        {/* Auth */}
+        <Route path='/login' element={<Login />} />
+        <Route path='/oauth-callback' element={<OAuthCallback />} />
+        <Route path='/reset-password/:token' element={<ResetPassword />} />
 
         <Route path='app' element={<Layout />}>
           <Route index element={<Dashboard />} />
