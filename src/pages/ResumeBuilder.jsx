@@ -56,6 +56,7 @@ const ResumeBuilder = () => {
 
   const [activeSectionIndex, setActiveSectionIndex] = useState(0)
   const [removeBackground, setRemoveBackground] = useState(false)
+  const [atsMode, setAtsMode] = useState(false)
 
   const sections = [
     { id: 'personal', name: 'Personal Information', icon: User},
@@ -317,6 +318,17 @@ const changeResumeVisibility = async () => {
           <div className='lg:col-span-7 max-lg:mt-6'>
             <div className='relative w-full'>
               <div className='absolute bottom-3 left-0 right-0 flex items-center justify-end gap-2'>
+                <button
+                  onClick={() => setAtsMode((prev) => !prev)}
+                  className={`flex items-center gap-2 px-4 py-2 text-xs rounded-lg ring transition-colors ${atsMode ?
+                    'bg-(--brand-primary-soft) text-(--brand-primary) ring-(--brand-primary-light)' :
+                    'bg-gray-100 text-gray-600 ring-gray-200 hover:ring-gray-300'
+                  }`}
+                  aria-pressed={atsMode}
+                >
+                  <FileText className='size-4'/>
+                  ATS Mode
+                </button>
                 {resumeData.public && (
                   <button onClick={handleShare} className='flex items-center p-2 px-4 gap-2 text-xs bg-linear-to-br from-blue-100 to-blue-200 
                   text-blue-600 rounded-lg ring-blue-300 hover:ring transition-colors'>
@@ -342,7 +354,7 @@ const changeResumeVisibility = async () => {
 
              
              <ResumePreview data={resumeData} template={resumeData.template}
-             accentColor={resumeData.accentColor}/>
+             accentColor={resumeData.accentColor} atsMode={atsMode}/>
              
 
           </div>

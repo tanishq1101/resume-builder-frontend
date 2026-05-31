@@ -1,5 +1,6 @@
 
-const MinimalTemplate = ({ data, accentColor }) => {
+const MinimalTemplate = ({ data, accentColor, atsMode = false }) => {
+    const displayAccent = atsMode ? "#111827" : accentColor;
     const formatDate = (dateStr) => {
         if (!dateStr) return "";
         if (dateStr.toLowerCase() === "present" || !dateStr.includes("-")) {
@@ -49,7 +50,7 @@ const MinimalTemplate = ({ data, accentColor }) => {
             {/* Experience */}
             {data.experience && data.experience.length > 0 && (
                 <section className="mb-10">
-                    <h2 className="text-sm uppercase tracking-widest mb-6 font-medium" style={{ color: accentColor }}>
+                    <h2 className="text-sm uppercase tracking-widest mb-6 font-medium" style={{ color: displayAccent }}>
                         Experience
                     </h2>
 
@@ -77,7 +78,7 @@ const MinimalTemplate = ({ data, accentColor }) => {
             {/* Projects */}
             {data.projects && data.projects.length > 0 && (
                 <section className="mb-10">
-                    <h2 className="text-sm uppercase tracking-widest mb-6 font-medium" style={{ color: accentColor }}>
+                    <h2 className="text-sm uppercase tracking-widest mb-6 font-medium" style={{ color: displayAccent }}>
                         Projects
                     </h2>
 
@@ -95,7 +96,7 @@ const MinimalTemplate = ({ data, accentColor }) => {
             {/* Education */}
             {data.education && data.education.length > 0 && (
                 <section className="mb-10">
-                    <h2 className="text-sm uppercase tracking-widest mb-6 font-medium" style={{ color: accentColor }}>
+                    <h2 className="text-sm uppercase tracking-widest mb-6 font-medium" style={{ color: displayAccent }}>
                         Education
                     </h2>
 
@@ -121,7 +122,7 @@ const MinimalTemplate = ({ data, accentColor }) => {
             {/* Skills */}
             {data.skills && data.skills.length > 0 && (
                 <section className="mb-10">
-                    <h2 className="text-sm uppercase tracking-widest mb-6 font-medium" style={{ color: accentColor }}>
+                    <h2 className="text-sm uppercase tracking-widest mb-6 font-medium" style={{ color: displayAccent }}>
                         Skills
                     </h2>
 
@@ -134,7 +135,7 @@ const MinimalTemplate = ({ data, accentColor }) => {
             {/* Key Achievements */}
             {data.key_achievements && data.key_achievements.length > 0 && (
                 <section className="mb-10">
-                    <h2 className="text-sm uppercase tracking-widest mb-6 font-medium" style={{ color: accentColor }}>
+                    <h2 className="text-sm uppercase tracking-widest mb-6 font-medium" style={{ color: displayAccent }}>
                         Achievements
                     </h2>
                     <div className="space-y-4">
@@ -151,7 +152,7 @@ const MinimalTemplate = ({ data, accentColor }) => {
             {/* Training / Courses */}
             {data.training_courses && data.training_courses.length > 0 && (
                 <section className="mb-10">
-                    <h2 className="text-sm uppercase tracking-widest mb-6 font-medium" style={{ color: accentColor }}>
+                    <h2 className="text-sm uppercase tracking-widest mb-6 font-medium" style={{ color: displayAccent }}>
                         Training / Courses
                     </h2>
                     <div className="space-y-4">

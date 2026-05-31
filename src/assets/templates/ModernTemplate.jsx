@@ -1,6 +1,7 @@
 import { Mail, Phone, MapPin, Linkedin, Globe } from "lucide-react";
 
-const ModernTemplate = ({ data, accentColor }) => {
+const ModernTemplate = ({ data, accentColor, atsMode = false }) => {
+	const displayAccent = atsMode ? "#111827" : accentColor;
 	const formatDate = (dateStr) => {
 		if (!dateStr) return "";
 		if (dateStr.toLowerCase() === "present" || !dateStr.includes("-")) {
@@ -20,12 +21,15 @@ const ModernTemplate = ({ data, accentColor }) => {
 	return (
 		<div className="max-w-4xl mx-auto bg-white text-gray-800">
 			{/* Header */}
-			<header className="p-8 text-white" style={{ backgroundColor: accentColor }}>
-				<h1 className="text-4xl font-light mb-3">
+			<header
+				className={`p-8 ${atsMode ? "text-gray-900 border-b border-gray-200" : "text-white"}`}
+				style={{ backgroundColor: atsMode ? "#ffffff" : displayAccent }}
+			>
+				<h1 className="text-4xl font-light mb-3" style={{ color: atsMode ? "#111827" : undefined }}>
 					{data.personal_info?.full_name || "Your Name"}
 				</h1>
 
-				<div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm ">
+				<div className={`grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm ${atsMode ? "text-gray-700" : ""}`}>
 					{data.personal_info?.email && (
 						<div className="flex items-center gap-2">
 							<Mail className="size-4" />
@@ -84,7 +88,7 @@ const ModernTemplate = ({ data, accentColor }) => {
 									<div className="flex justify-between items-start mb-2">
 										<div>
 											<h3 className="text-xl font-medium text-gray-900">{exp.position}</h3>
-											<p className="font-medium" style={{ color: accentColor }}>{exp.company}</p>
+											<p className="font-medium" style={{ color: displayAccent }}>{exp.company}</p>
 										</div>
 										<div className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded">
 											{formatDate(exp.start_date)} - {exp.current ? "Present" : formatDate(exp.end_date)}
@@ -110,7 +114,7 @@ const ModernTemplate = ({ data, accentColor }) => {
 
 						<div className="space-y-6">
 							{data.projects.map((p, index) => (
-								<div key={index} className="relative pl-6 border-l border-gray-200" style={{borderLeftColor: accentColor}}>
+								<div key={index} className="relative pl-6 border-l border-gray-200" style={{borderLeftColor: displayAccent}}>
 
 
 									<div className="flex justify-between items-start">
@@ -143,7 +147,7 @@ const ModernTemplate = ({ data, accentColor }) => {
 										<h3 className="font-semibold text-gray-900">
 											{edu.degree} {edu.field && `in ${edu.field}`}
 										</h3>
-										<p style={{ color: accentColor }}>{edu.institution}</p>
+										<p style={{ color: displayAccent }}>{edu.institution}</p>
 										<div className="flex justify-between items-center text-sm text-gray-600">
 											<span>{formatDate(edu.graduation_date)}</span>
 											{edu.gpa && <span>GPA: {edu.gpa}</span>}
@@ -165,8 +169,8 @@ const ModernTemplate = ({ data, accentColor }) => {
 								{data.skills.map((skill, index) => (
 									<span
 										key={index}
-										className="px-3 py-1 text-sm text-white rounded-full"
-										style={{ backgroundColor: accentColor }}
+										className={`px-3 py-1 text-sm rounded-full ${atsMode ? "text-gray-900 bg-gray-200" : "text-white"}`}
+										style={atsMode ? undefined : { backgroundColor: displayAccent }}
 									>
 										{skill}
 									</span>

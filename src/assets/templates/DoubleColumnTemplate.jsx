@@ -1,7 +1,9 @@
 import React from "react";
 import { Mail, Phone, MapPin, Linkedin, Globe, Award, BookOpen, Heart, Sparkles } from "lucide-react";
 
-const DoubleColumnTemplate = ({ data, accentColor }) => {
+const DoubleColumnTemplate = ({ data, accentColor, atsMode = false }) => {
+  const displayAccent = atsMode ? "#111827" : accentColor;
+  const borderAccent = atsMode ? "#e5e7eb" : accentColor;
   const formatDate = (dateStr) => {
     if (!dateStr) return "";
     if (dateStr.toLowerCase() === "present" || !dateStr.includes("-")) {
@@ -22,10 +24,10 @@ const DoubleColumnTemplate = ({ data, accentColor }) => {
     <div className="max-w-4xl mx-auto bg-white text-gray-800 leading-relaxed shadow-sm">
       {/* Header Banner */}
       <header 
-        className="p-8 text-white text-center space-y-4"
-        style={{ backgroundColor: accentColor }}
+        className={`p-8 text-center space-y-4 ${atsMode ? "text-gray-900 border-b border-gray-200" : "text-white"}`}
+        style={{ backgroundColor: atsMode ? "#ffffff" : displayAccent }}
       >
-        <h1 className="text-4xl font-bold tracking-wide uppercase">
+        <h1 className="text-4xl font-bold tracking-wide uppercase" style={{ color: atsMode ? "#111827" : undefined }}>
           {data.personal_info?.full_name || "Your Name"}
         </h1>
         
@@ -35,7 +37,7 @@ const DoubleColumnTemplate = ({ data, accentColor }) => {
           </p>
         )}
 
-        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs opacity-90 pt-2 border-t border-white/20">
+  <div className={`flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs opacity-90 pt-2 ${atsMode ? "border-t border-gray-200" : "border-t border-white/20"}`}>
           {data.personal_info?.email && (
             <div className="flex items-center gap-1.5">
               <Mail className="size-3.5" />
@@ -78,7 +80,7 @@ const DoubleColumnTemplate = ({ data, accentColor }) => {
           {/* Summary */}
           {data.professional_summary && (
             <section className="space-y-2">
-              <h2 className="text-base font-bold tracking-wider uppercase border-b-2 pb-1" style={{ color: accentColor, borderColor: accentColor }}>
+              <h2 className="text-base font-bold tracking-wider uppercase border-b-2 pb-1" style={{ color: displayAccent, borderColor: borderAccent }}>
                 Summary
               </h2>
               <p className="text-xs text-gray-700 leading-relaxed text-justify">
@@ -90,7 +92,7 @@ const DoubleColumnTemplate = ({ data, accentColor }) => {
           {/* Experience */}
           {data.experience && data.experience.length > 0 && (
             <section className="space-y-4">
-              <h2 className="text-base font-bold tracking-wider uppercase border-b-2 pb-1" style={{ color: accentColor, borderColor: accentColor }}>
+              <h2 className="text-base font-bold tracking-wider uppercase border-b-2 pb-1" style={{ color: displayAccent, borderColor: borderAccent }}>
                 Experience
               </h2>
               <div className="space-y-4">
@@ -119,7 +121,7 @@ const DoubleColumnTemplate = ({ data, accentColor }) => {
           {/* Projects */}
           {data.projects && data.projects.length > 0 && (
             <section className="space-y-4">
-              <h2 className="text-base font-bold tracking-wider uppercase border-b-2 pb-1" style={{ color: accentColor, borderColor: accentColor }}>
+              <h2 className="text-base font-bold tracking-wider uppercase border-b-2 pb-1" style={{ color: displayAccent, borderColor: borderAccent }}>
                 Projects
               </h2>
               <div className="space-y-4">
@@ -147,7 +149,7 @@ const DoubleColumnTemplate = ({ data, accentColor }) => {
           {/* Education */}
           {data.education && data.education.length > 0 && (
             <section className="space-y-4">
-              <h2 className="text-base font-bold tracking-wider uppercase border-b-2 pb-1" style={{ color: accentColor, borderColor: accentColor }}>
+              <h2 className="text-base font-bold tracking-wider uppercase border-b-2 pb-1" style={{ color: displayAccent, borderColor: borderAccent }}>
                 Education
               </h2>
               <div className="space-y-3">
@@ -175,7 +177,7 @@ const DoubleColumnTemplate = ({ data, accentColor }) => {
           {/* Key Achievements */}
           {data.key_achievements && data.key_achievements.length > 0 && (
             <section className="space-y-3">
-              <h2 className="text-base font-bold tracking-wider uppercase border-b-2 pb-1" style={{ color: accentColor, borderColor: accentColor }}>
+              <h2 className="text-base font-bold tracking-wider uppercase border-b-2 pb-1" style={{ color: displayAccent, borderColor: borderAccent }}>
                 Achievements
               </h2>
               <div className="space-y-3">
@@ -184,7 +186,7 @@ const DoubleColumnTemplate = ({ data, accentColor }) => {
                     {/* Visual Square bullet point */}
                     <div 
                       className="size-1.5 rounded-xs mt-1 shrink-0"
-                      style={{ backgroundColor: accentColor }}
+                      style={{ backgroundColor: atsMode ? "#111827" : displayAccent }}
                     />
                     <div className="space-y-0.5">
                       <h4 className="text-xs font-bold text-gray-900 leading-tight">{ach.title}</h4>
@@ -199,15 +201,15 @@ const DoubleColumnTemplate = ({ data, accentColor }) => {
           {/* Skills */}
           {data.skills && data.skills.length > 0 && (
             <section className="space-y-3">
-              <h2 className="text-base font-bold tracking-wider uppercase border-b-2 pb-1" style={{ color: accentColor, borderColor: accentColor }}>
+              <h2 className="text-base font-bold tracking-wider uppercase border-b-2 pb-1" style={{ color: displayAccent, borderColor: borderAccent }}>
                 Skills
               </h2>
               <div className="flex flex-wrap gap-1.5">
                 {data.skills.map((skill, index) => (
                   <span 
                     key={index} 
-                    className="text-[10px] px-2 py-0.5 rounded-full text-white font-medium tracking-wide shadow-2xs"
-                    style={{ backgroundColor: accentColor }}
+                    className={`text-[10px] px-2 py-0.5 rounded-full font-medium tracking-wide shadow-2xs ${atsMode ? "text-gray-900 bg-gray-200" : "text-white"}`}
+                    style={atsMode ? undefined : { backgroundColor: displayAccent }}
                   >
                     {skill}
                   </span>
@@ -219,7 +221,7 @@ const DoubleColumnTemplate = ({ data, accentColor }) => {
           {/* Training / Courses */}
           {data.training_courses && data.training_courses.length > 0 && (
             <section className="space-y-3">
-              <h2 className="text-base font-bold tracking-wider uppercase border-b-2 pb-1" style={{ color: accentColor, borderColor: accentColor }}>
+              <h2 className="text-base font-bold tracking-wider uppercase border-b-2 pb-1" style={{ color: displayAccent, borderColor: borderAccent }}>
                 Training
               </h2>
               <div className="space-y-3">
@@ -240,7 +242,7 @@ const DoubleColumnTemplate = ({ data, accentColor }) => {
           {/* Interests */}
           {data.interests && data.interests.length > 0 && (
             <section className="space-y-3">
-              <h2 className="text-base font-bold tracking-wider uppercase border-b-2 pb-1" style={{ color: accentColor, borderColor: accentColor }}>
+              <h2 className="text-base font-bold tracking-wider uppercase border-b-2 pb-1" style={{ color: displayAccent, borderColor: borderAccent }}>
                 Interests
               </h2>
               <div className="space-y-2.5">
@@ -248,7 +250,7 @@ const DoubleColumnTemplate = ({ data, accentColor }) => {
                   <div key={index} className="flex gap-2">
                     <div 
                       className="size-1.5 rounded-full mt-1 shrink-0"
-                      style={{ backgroundColor: accentColor }}
+                      style={{ backgroundColor: atsMode ? "#111827" : displayAccent }}
                     />
                     <div className="space-y-0.5">
                       <h4 className="text-xs font-bold text-gray-900 leading-none">{interest.name}</h4>

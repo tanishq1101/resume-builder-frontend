@@ -6,30 +6,32 @@ import MinimalImageTemplate from '../assets/templates/MinimalImageTemplate'
 import DoubleColumnTemplate from '../assets/templates/DoubleColumnTemplate'
 
 
-const ResumePreview = ({data, template, accentColor, classes = " "}) => {
+const ResumePreview = ({data, template, accentColor, classes = " ", atsMode = false}) => {
+
+    const displayAccent = atsMode ? "#111827" : accentColor;
 
     const renderTemplate = ()=> {
         switch (template) {
             case "modern":
-                return <ModernTemplate data={data} accentColor={accentColor}/>;
+                return <ModernTemplate data={data} accentColor={displayAccent} atsMode={atsMode}/>;
 
             case "minimal":
-                return <MinimalTemplate data={data} accentColor={accentColor}/>;
+                return <MinimalTemplate data={data} accentColor={displayAccent} atsMode={atsMode}/>;
             
             case "minimal-image":
-                return <MinimalImageTemplate data={data} accentColor={accentColor}/>;
+                return <MinimalImageTemplate data={data} accentColor={displayAccent} atsMode={atsMode}/>;
             
             case "double-column":
-                return <DoubleColumnTemplate data={data} accentColor={accentColor}/>;
+                return <DoubleColumnTemplate data={data} accentColor={displayAccent} atsMode={atsMode}/>;
             
             default:
-                return <ClassicTemplate data={data} accentColor={accentColor}/>;
+                return <ClassicTemplate data={data} accentColor={displayAccent} atsMode={atsMode}/>;
             
         }
     }
 
   return (
-    <div className='w-full bg-gray-100'>
+    <div className={`w-full ${atsMode ? 'bg-white' : 'bg-gray-100'}`}>
         <div id='resume-preview' className={'border border-gray-200 print:shadow-none print:border-none' + classes}>
         {renderTemplate()}
         </div>

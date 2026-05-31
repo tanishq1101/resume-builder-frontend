@@ -7,6 +7,20 @@
   font-family: 'Outfit', sans-serif;
 }
 
+:root {
+  --brand-primary: #2563eb;
+  --brand-primary-dark: #1d4ed8;
+  --brand-primary-light: #60a5fa;
+  --brand-primary-soft: #eff6ff;
+  --brand-primary-weak: #dbeafe;
+}
+
+html.dark {
+  --brand-primary-light: #93c5fd;
+  --brand-primary-soft: #1e293b;
+  --brand-primary-weak: #1e3a8a;
+}
+
 /* Dark mode base styles */
 html.dark {
   color-scheme: dark;

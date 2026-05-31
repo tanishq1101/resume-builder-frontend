@@ -1,6 +1,7 @@
 import { Mail, Phone, MapPin } from "lucide-react";
 
-const MinimalImageTemplate = ({ data, accentColor }) => {
+const MinimalImageTemplate = ({ data, accentColor, atsMode = false }) => {
+    const displayAccent = atsMode ? "#111827" : accentColor;
     const formatDate = (dateStr) => {
         if (!dateStr) return "";
         if (dateStr.toLowerCase() === "present" || !dateStr.includes("-")) {
@@ -25,7 +26,7 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
                     {/* Image */}
                     {data.personal_info?.image && typeof data.personal_info.image === 'string' ? (
                         <div className="mb-6">
-                            <img src={data.personal_info.image} alt="Profile" className="w-32 h-32 object-cover rounded-full mx-auto" style={{ background: accentColor+'70' }} />
+                            <img src={data.personal_info.image} alt="Profile" className="w-32 h-32 object-cover rounded-full mx-auto" style={{ background: atsMode ? "#e5e7eb" : accentColor+'70' }} />
                         </div>
                     ) : (
                         data.personal_info?.image && typeof data.personal_info.image === 'object' ? (
@@ -58,19 +59,19 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
                         <div className="space-y-2 text-sm">
                             {data.personal_info?.phone && (
                                 <div className="flex items-center gap-2">
-                                    <Phone size={14} style={{ color: accentColor }} />
+                                    <Phone size={14} style={{ color: displayAccent }} />
                                     <span>{data.personal_info.phone}</span>
                                 </div>
                             )}
                             {data.personal_info?.email && (
                                 <div className="flex items-center gap-2">
-                                    <Mail size={14} style={{ color: accentColor }} />
+                                    <Mail size={14} style={{ color: displayAccent }} />
                                     <span>{data.personal_info.email}</span>
                                 </div>
                             )}
                             {data.personal_info?.location && (
                                 <div className="flex items-center gap-2">
-                                    <MapPin size={14} style={{ color: accentColor }} />
+                                    <MapPin size={14} style={{ color: displayAccent }} />
                                     <span>{data.personal_info.location}</span>
                                 </div>
                             )}
@@ -151,7 +152,7 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
                     {/* Summary */}
                     {data.professional_summary && (
                         <section className="mb-8">
-                            <h2 className="text-sm font-semibold tracking-widest mb-3" style={{ color: accentColor }} >
+                            <h2 className="text-sm font-semibold tracking-widest mb-3" style={{ color: displayAccent }} >
                                 SUMMARY
                             </h2>
                             <p className="text-zinc-700 leading-relaxed">
@@ -163,7 +164,7 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
                     {/* Experience */}
                     {data.experience && data.experience.length > 0 && (
                         <section>
-                            <h2 className="text-sm font-semibold tracking-widest mb-4" style={{ color: accentColor }} >
+                            <h2 className="text-sm font-semibold tracking-widest mb-4" style={{ color: displayAccent }} >
                                 EXPERIENCE
                             </h2>
                             <div className="space-y-6 mb-8">
@@ -178,7 +179,7 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
                                                 {exp.current ? "Present" : formatDate(exp.end_date)}
                                             </span>
                                         </div>
-                                        <p className="text-sm mb-2" style={{ color: accentColor }} >
+                                        <p className="text-sm mb-2" style={{ color: displayAccent }} >
                                             {exp.company}
                                         </p>
                                         {exp.description && (
@@ -197,14 +198,14 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
                     {/* Projects */}
                     {data.projects && data.projects.length > 0 && (
                         <section>
-                            <h2 className="text-sm uppercase tracking-widest font-semibold" style={{ color: accentColor }}>
+                            <h2 className="text-sm uppercase tracking-widest font-semibold" style={{ color: displayAccent }}>
                                 PROJECTS
                             </h2>
                             <div className="space-y-4">
                                 {data.projects.map((project, index) => (
                                     <div key={index}>
                                         <h3 className="text-md font-medium text-zinc-800 mt-3">{project.name}</h3>
-                                        <p className="text-sm mb-1" style={{ color: accentColor }} >
+                                        <p className="text-sm mb-1" style={{ color: displayAccent }} >
                                             {project.type}
                                         </p>
                                         {project.description && (
@@ -223,7 +224,7 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
                     {/* Training / Courses */}
                     {data.training_courses && data.training_courses.length > 0 && (
                         <section className="mt-8">
-                            <h2 className="text-sm uppercase tracking-widest font-semibold" style={{ color: accentColor }}>
+                            <h2 className="text-sm uppercase tracking-widest font-semibold" style={{ color: displayAccent }}>
                                 TRAINING / COURSES
                             </h2>
                             <div className="space-y-4">
