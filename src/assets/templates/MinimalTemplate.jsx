@@ -2,8 +2,15 @@
 const MinimalTemplate = ({ data, accentColor }) => {
     const formatDate = (dateStr) => {
         if (!dateStr) return "";
+        if (dateStr.toLowerCase() === "present" || !dateStr.includes("-")) {
+            return dateStr;
+        }
         const [year, month] = dateStr.split("-");
-        return new Date(year, month - 1).toLocaleDateString("en-US", {
+        const parsedDate = new Date(year, month - 1);
+        if (isNaN(parsedDate.getTime())) {
+            return dateStr;
+        }
+        return parsedDate.toLocaleDateString("en-US", {
             year: "numeric",
             month: "short"
         });
