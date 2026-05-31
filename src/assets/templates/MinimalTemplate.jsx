@@ -113,13 +113,63 @@ const MinimalTemplate = ({ data, accentColor }) => {
 
             {/* Skills */}
             {data.skills && data.skills.length > 0 && (
-                <section>
+                <section className="mb-10">
                     <h2 className="text-sm uppercase tracking-widest mb-6 font-medium" style={{ color: accentColor }}>
                         Skills
                     </h2>
 
                     <div className="text-gray-700">
                         {data.skills.join(" • ")}
+                    </div>
+                </section>
+            )}
+
+            {/* Key Achievements */}
+            {data.key_achievements && data.key_achievements.length > 0 && (
+                <section className="mb-10">
+                    <h2 className="text-sm uppercase tracking-widest mb-6 font-medium" style={{ color: accentColor }}>
+                        Achievements
+                    </h2>
+                    <div className="space-y-4">
+                        {data.key_achievements.map((ach, index) => (
+                            <div key={index} className="space-y-1">
+                                <h3 className="font-medium text-base">{ach.title}</h3>
+                                {ach.description && <p className="text-gray-600 text-sm">{ach.description}</p>}
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            )}
+
+            {/* Training / Courses */}
+            {data.training_courses && data.training_courses.length > 0 && (
+                <section className="mb-10">
+                    <h2 className="text-sm uppercase tracking-widest mb-6 font-medium" style={{ color: accentColor }}>
+                        Training / Courses
+                    </h2>
+                    <div className="space-y-4">
+                        {data.training_courses.map((course, index) => (
+                            <div key={index} className="space-y-1">
+                                <h3 className="font-medium text-base">{course.name}</h3>
+                                {course.description && <p className="text-gray-600 text-sm">{course.description}</p>}
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            )}
+
+            {/* Interests */}
+            {data.interests && data.interests.length > 0 && (
+                <section className="mb-10">
+                    <h2 className="text-sm uppercase tracking-widest mb-6 font-medium" style={{ color: accentColor }}>
+                        Interests
+                    </h2>
+                    <div className="text-gray-700 space-y-1">
+                        {data.interests.map((interest, index) => (
+                            <div key={index} className="text-sm">
+                                <strong>{interest.name}</strong>{interest.description && `: ${interest.description}`}
+                            </div>
+                        ))}
                     </div>
                 </section>
             )}

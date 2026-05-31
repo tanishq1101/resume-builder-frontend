@@ -3,6 +3,7 @@ import ClassicTemplate from '../assets/templates/ClassicTemplate'
 import ModernTemplate from '../assets/templates/ModernTemplate'
 import MinimalTemplate from '../assets/templates/MinimalTemplate'
 import MinimalImageTemplate from '../assets/templates/MinimalImageTemplate'
+import DoubleColumnTemplate from '../assets/templates/DoubleColumnTemplate'
 
 
 const ResumePreview = ({data, template, accentColor, classes = " "}) => {
@@ -17,6 +18,9 @@ const ResumePreview = ({data, template, accentColor, classes = " "}) => {
             
             case "minimal-image":
                 return <MinimalImageTemplate data={data} accentColor={accentColor}/>;
+            
+            case "double-column":
+                return <DoubleColumnTemplate data={data} accentColor={accentColor}/>;
             
             default:
                 return <ClassicTemplate data={data} accentColor={accentColor}/>;

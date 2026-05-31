@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { ArrowLeftIcon, Briefcase, ChevronLeft, ChevronRight, DownloadIcon, EyeIcon, EyeOffIcon, FileText, FolderIcon, GraduationCap, Share2Icon, Sparkles, User } from 'lucide-react'
+import { ArrowLeftIcon, Briefcase, ChevronLeft, ChevronRight, DownloadIcon, EyeIcon, EyeOffIcon, FileText, FolderIcon, GraduationCap, Share2Icon, Sparkles, User, Award, BookOpen, Heart } from 'lucide-react'
 import PersonalInfoForm from '../components/PersonalInfoForm'
 import ResumePreview from '../components/ResumePreview'
 import TemplateSelector from '../components/TemplateSelector'
@@ -12,6 +12,9 @@ import EducationForm from '../components/EducationForm'
 import ProjectForm from '../components/ProjectForm'
 import SkillsForm from '../components/SkillsForm'
 import AiToolsForm from '../components/AiToolsForm'
+import AchievementsForm from '../components/AchievementsForm'
+import TrainingForm from '../components/TrainingForm'
+import InterestsForm from '../components/InterestsForm'
 import { useSelector } from 'react-redux'
 import api from '../configs/api'
 import toast from 'react-hot-toast'
@@ -29,6 +32,9 @@ const ResumeBuilder = () => {
     education: [],
     projects: [],
     skills: [],
+    key_achievements: [],
+    training_courses: [],
+    interests: [],
     template: "classic",
     accentColor: "#3B82F6",
     public: false
@@ -58,6 +64,9 @@ const ResumeBuilder = () => {
     { id: 'education', name: 'Education', icon: GraduationCap},
     { id: 'projects', name: 'Projects', icon: FolderIcon},
     { id: 'skills', name: 'Skills', icon: Sparkles},
+    { id: 'achievements', name: 'Achievements', icon: Award},
+    { id: 'training', name: 'Training / Courses', icon: BookOpen},
+    { id: 'interests', name: 'Interests', icon: Heart},
     { id: 'ai-tools', name: 'AI Co-Pilot', icon: Sparkles},
   ]
 
@@ -96,7 +105,7 @@ const changeResumeVisibility = async () => {
     const resumeUrl = frontendUrl + '/view/' + resumeId;
 
     if(navigator.share) {
-      navigator.share({url: resumeUrl,text: "My Resume",})
+      navigator.share({url: resumeUrl,text: "My CV",})
     }
     else {
       alert('Share is not supported in this browser.')
@@ -129,7 +138,7 @@ const changeResumeVisibility = async () => {
 
       const opt = {
         margin: 0.15,
-        filename: `${resumeData.title || 'resume'}.pdf`,
+        filename: `${resumeData.title || 'cv'}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2, useCORS: true, letterRendering: true },
         jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
@@ -271,6 +280,21 @@ const changeResumeVisibility = async () => {
               onChange={(data)=>setResumeData(prev => ({...prev, skills:data}))}
               profession={resumeData.personal_info?.profession}
               token={token}/>
+               )}
+
+               {activeSection.id === 'achievements' && (
+              <AchievementsForm data={resumeData.key_achievements || []}
+              onChange={(data)=>setResumeData(prev => ({...prev, key_achievements:data}))}/>
+               )}
+
+               {activeSection.id === 'training' && (
+              <TrainingForm data={resumeData.training_courses || []}
+              onChange={(data)=>setResumeData(prev => ({...prev, training_courses:data}))}/>
+               )}
+
+               {activeSection.id === 'interests' && (
+              <InterestsForm data={resumeData.interests || []}
+              onChange={(data)=>setResumeData(prev => ({...prev, interests:data}))}/>
                )}
 
                {activeSection.id === 'ai-tools' && (

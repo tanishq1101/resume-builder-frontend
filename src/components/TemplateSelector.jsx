@@ -9,8 +9,13 @@ const templates = [
   {
     id: "classic",
     name: "Classic",
-    preview: "A clean, traditional resume format with clear sections and professional typography"
+    preview: "A clean, traditional CV format with clear sections and professional typography"
 
+  },
+  {
+    id: "double-column",
+    name: "Double-Column Professional",
+    preview: "Premium split layout containing custom achievements, training, and interests lists."
   },
   {
     id: "modern",

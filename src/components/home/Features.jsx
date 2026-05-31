@@ -11,8 +11,8 @@ const Features = () => {
                 <Zap width={14} />
                 <span>Simple Process</span>
             </div>
-            <Title title='Build your resume' description='Our streamlined process
-        helps you to create a professional resume in minutes with intelligent 
+            <Title title='Build your CV' description='Our streamlined process
+        helps you to create a professional CV in minutes with intelligent 
         AI-powered tools and features.'/>
 
 

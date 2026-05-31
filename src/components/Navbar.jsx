@@ -23,7 +23,7 @@ const Navbar = () => {
         <div className='shadow bg-white dark:bg-gray-900 dark:shadow-gray-800/50 transition-colors duration-300'>
             <nav className="flex items-center justify-between max-w-7xl mx-auto px-4 py-3.5 text-slate-800 dark:text-gray-200 transition-all">
                 <Link to='/'>
-                    <img src="/logo.svg" alt="logo" className="h-8 w-auto dark:invert" />
+                    <img src="/logo.svg" alt="CV Craft logo" className="h-8 w-auto dark:invert" />
                 </Link>
                 <div className='flex items-center gap-4 text-sm'>
                     <p className='max-sm:hidden'>Hi, {user?.name}</p>

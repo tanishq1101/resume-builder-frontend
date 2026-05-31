@@ -168,6 +168,54 @@ const ModernTemplate = ({ data, accentColor }) => {
 						</section>
 					)}
 				</div>
+
+				{/* Key Achievements */}
+				{data.key_achievements && data.key_achievements.length > 0 && (
+					<section className="mt-8">
+						<h2 className="text-2xl font-light mb-4 pb-2 border-b border-gray-200">
+							Key Achievements
+						</h2>
+						<ul className="list-disc pl-5 space-y-2">
+							{data.key_achievements.map((ach, index) => (
+								<li key={index} className="text-gray-700 text-sm">
+									<strong>{ach.title}</strong>{ach.description && `: ${ach.description}`}
+								</li>
+							))}
+						</ul>
+					</section>
+				)}
+
+				{/* Training / Courses */}
+				{data.training_courses && data.training_courses.length > 0 && (
+					<section className="mt-8">
+						<h2 className="text-2xl font-light mb-4 pb-2 border-b border-gray-200">
+							Training / Courses
+						</h2>
+						<ul className="list-disc pl-5 space-y-2">
+							{data.training_courses.map((course, index) => (
+								<li key={index} className="text-gray-700 text-sm">
+									<strong>{course.name}</strong>{course.description && `: ${course.description}`}
+								</li>
+							))}
+						</ul>
+					</section>
+				)}
+
+				{/* Interests */}
+				{data.interests && data.interests.length > 0 && (
+					<section className="mt-8">
+						<h2 className="text-2xl font-light mb-4 pb-2 border-b border-gray-200">
+							Interests & Hobbies
+						</h2>
+						<div className="flex flex-wrap gap-2">
+							{data.interests.map((interest, index) => (
+								<span key={index} className="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-full">
+									<strong>{interest.name}</strong>{interest.description && `: ${interest.description}`}
+								</span>
+							))}
+						</div>
+					</section>
+				)}
 			</div>
 		</div>
 	);

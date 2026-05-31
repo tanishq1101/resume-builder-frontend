@@ -154,6 +154,54 @@ const ClassicTemplate = ({ data, accentColor }) => {
                     </div>
                 </section>
             )}
+
+            {/* Key Achievements */}
+            {data.key_achievements && data.key_achievements.length > 0 && (
+                <section className="mb-6">
+                    <h2 className="text-xl font-semibold mb-4" style={{ color: accentColor }}>
+                        KEY ACHIEVEMENTS
+                    </h2>
+                    <ul className="list-disc pl-5 space-y-2">
+                        {data.key_achievements.map((ach, index) => (
+                            <li key={index} className="text-gray-700 text-sm">
+                                <strong>{ach.title}</strong>{ach.description && `: ${ach.description}`}
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+            )}
+
+            {/* Training / Courses */}
+            {data.training_courses && data.training_courses.length > 0 && (
+                <section className="mb-6">
+                    <h2 className="text-xl font-semibold mb-4" style={{ color: accentColor }}>
+                        TRAINING / COURSES
+                    </h2>
+                    <ul className="list-disc pl-5 space-y-2">
+                        {data.training_courses.map((course, index) => (
+                            <li key={index} className="text-gray-700 text-sm">
+                                <strong>{course.name}</strong>{course.description && `: ${course.description}`}
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+            )}
+
+            {/* Interests */}
+            {data.interests && data.interests.length > 0 && (
+                <section className="mb-6">
+                    <h2 className="text-xl font-semibold mb-4" style={{ color: accentColor }}>
+                        INTERESTS & HOBBIES
+                    </h2>
+                    <div className="flex gap-4 flex-wrap">
+                        {data.interests.map((interest, index) => (
+                            <div key={index} className="text-gray-700 text-sm">
+                                • <strong>{interest.name}</strong>{interest.description && `: ${interest.description}`}
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            )}
         </div>
     );
 }
