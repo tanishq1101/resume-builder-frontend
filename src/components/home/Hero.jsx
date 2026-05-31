@@ -99,10 +99,10 @@ const Hero = () => {
 
                     {/* Headline + CTA */}
                     <h1 className="text-5xl md:text-6xl font-semibold max-w-5xl text-center mt-4 md:leading-[70px]">
-                        Land your dream job with <span className=" bg-linear-to-r from-green-700 to-green-600 dark:from-green-400 dark:to-green-300 bg-clip-text text-transparent text-nowrap">AI-powered</span> CVs.
+                        Land your dream job with <span className=" bg-linear-to-r from-green-700 to-green-600 dark:from-green-400 dark:to-green-300 bg-clip-text text-transparent text-nowrap">AI-powered</span> resumes.
                     </h1>
 
-                    <p className="max-w-md text-center text-base my-7 dark:text-gray-300">Create, edit and download professional CVs with AI-powered assistance.</p>
+                    <p className="max-w-md text-center text-base my-7 dark:text-gray-300">Create, edit and download professional resumes with AI-powered assistance.</p>
 
                     {/* CTA Buttons */}
                     <div className="flex items-center gap-4 ">

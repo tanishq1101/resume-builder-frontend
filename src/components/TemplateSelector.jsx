@@ -9,7 +9,7 @@ const templates = [
   {
     id: "classic",
     name: "Classic",
-    preview: "A clean, traditional CV format with clear sections and professional typography"
+    preview: "A clean, traditional resume format with clear sections and professional typography"
 
   },
   {

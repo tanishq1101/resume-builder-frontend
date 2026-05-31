@@ -105,7 +105,7 @@ const changeResumeVisibility = async () => {
     const resumeUrl = frontendUrl + '/view/' + resumeId;
 
     if(navigator.share) {
-      navigator.share({url: resumeUrl,text: "My CV",})
+      navigator.share({url: resumeUrl,text: "My Resume",})
     }
     else {
       alert('Share is not supported in this browser.')
@@ -138,7 +138,7 @@ const changeResumeVisibility = async () => {
 
       const opt = {
         margin: 0.15,
-        filename: `${resumeData.title || 'cv'}.pdf`,
+        filename: `${resumeData.title || 'resume'}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2, useCORS: true, letterRendering: true },
         jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }

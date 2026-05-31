@@ -166,7 +166,7 @@ const Dashboard = () => {
   const deleteResume = async (resumeId) => {
     try {
       const confirmDelete = window.confirm(
-        "Are you sure you want to delete this CV?"
+        "Are you sure you want to delete this resume?"
       );
       if (!confirmDelete) return;
 
@@ -216,7 +216,7 @@ const Dashboard = () => {
             <PlusIcon className="size-11 transition-all duration-300 p-2.5 
             bg-linear-to-br from-indigo-300 to-indigo-500 text-white rounded-full" />
             <p className="text-sm group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-all duration-300">
-              Create CV
+              Create Resume
             </p>
           </button>
 
@@ -230,7 +230,7 @@ const Dashboard = () => {
             <UploadCloudIcon className="size-11 transition-all duration-300 p-2.5 
             bg-linear-to-br from-purple-300 to-purple-500 text-white rounded-full" />
             <p className="text-sm group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-all duration-300">
-              Upload CV
+              Upload Resume
             </p>
           </button>
         </div>
@@ -278,7 +278,7 @@ const Dashboard = () => {
                     className="text-sm group-hover:scale-105 transition-all px-2 text-center"
                     style={{ color: baseColor }}
                   >
-                    {resume?.title || "Untitled CV"}
+                    {resume?.title || "Untitled Resume"}
                   </p>
 
                   {/* Public View Tracker */}
@@ -338,19 +338,19 @@ const Dashboard = () => {
               className="relative bg-slate-50 dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded-lg 
             w-full max-w-sm p-6"
             >
-              <h2 className="text-xl font-bold mb-4 dark:text-gray-100">Create a CV</h2>
+              <h2 className="text-xl font-bold mb-4 dark:text-gray-100">Create a Resume</h2>
               <input
                 onChange={(e) => setTitle(e.target.value)}
                 value={title}
                 type="text"
-                placeholder="Enter CV Title"
+                placeholder="Enter Resume Title"
                 className="w-full px-4 py-2 mb-4 focus:border-green-600 ring-green-600"
                 required
               />
 
               <button className="w-full bg-green-600 text-white py-2 rounded-md
               hover:bg-green-700 transition-colors">
-                Create CV
+                Create Resume
               </button>
 
               <XIcon
@@ -378,20 +378,20 @@ const Dashboard = () => {
               className="relative bg-slate-50 dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded-lg 
             w-full max-w-sm p-6"
             >
-              <h2 className="text-xl font-bold mb-4 dark:text-gray-100">Upload CV</h2>
+              <h2 className="text-xl font-bold mb-4 dark:text-gray-100">Upload Resume</h2>
 
               <input
                 onChange={(e) => setTitle(e.target.value)}
                 value={title}
                 type="text"
-                placeholder="CV Title"
+                placeholder="Resume Title"
                 className="w-full px-4 py-2 mb-4 focus:border-green-600 ring-green-600"
                 required
               />
 
               <div>
                 <label htmlFor="resume-input" className="block text-sm text-slate-700 dark:text-gray-300">
-                  Select CV PDF File
+                  Select Resume File
                   <div
                     className="flex flex-col items-center justify-center gap-2 border group text-slate-400 dark:text-gray-500
                   border-slate-400 dark:border-gray-600 border-dashed rounded-md p-4 py-10 my-10 cursor-pointer
@@ -423,7 +423,7 @@ const Dashboard = () => {
                 {isLoading && (
                   <LoaderCircleIcon className="animate-spin size-4 text-white" />
                 )}
-                {isLoading ? "Uploading..." : "Upload CV"}
+                {isLoading ? "Uploading..." : "Upload Resume"}
               </button>
 
               <XIcon
@@ -451,13 +451,13 @@ const Dashboard = () => {
               className="relative bg-slate-50 dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded-lg 
             w-full max-w-sm p-6"
             >
-              <h2 className="text-xl font-bold mb-4 dark:text-gray-100">Edit CV Title</h2>
+              <h2 className="text-xl font-bold mb-4 dark:text-gray-100">Edit Resume Title</h2>
 
               <input
                 onChange={(e) => setTitle(e.target.value)}
                 value={title}
                 type="text"
-                placeholder="Enter CV Title"
+                placeholder="Enter Resume Title"
                 className="w-full px-4 py-2 mb-4 focus:border-green-600 ring-green-600"
                 required
               />
