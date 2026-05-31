@@ -6,7 +6,8 @@ import {
   TrashIcon,
   UploadCloud,
   UploadCloudIcon,
-  XIcon
+  XIcon,
+  EyeIcon
 } from "lucide-react";
 
 import React, { useEffect, useState } from "react";
@@ -256,6 +257,18 @@ const Dashboard = () => {
                     borderColor: `${baseColor}40`
                   }}
                 >
+                  {/* ATS Score Badge */}
+                  {resume?.ats_score !== undefined && resume?.ats_score !== null && (
+                    <div 
+                      className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded-md text-[9px] font-bold text-white flex items-center gap-0.5 shadow-xs"
+                      style={{
+                        backgroundColor: resume.ats_score >= 85 ? "#16a34a" : resume.ats_score >= 70 ? "#d97706" : "#dc2626"
+                      }}
+                    >
+                      ATS {resume.ats_score}%
+                    </div>
+                  )}
+
                   <FilePenLineIcon
                     className="size-7 group-hover:scale-105 transition-all"
                     style={{ color: baseColor }}
@@ -267,6 +280,16 @@ const Dashboard = () => {
                   >
                     {resume?.title || "Untitled Resume"}
                   </p>
+
+                  {/* Public View Tracker */}
+                  {resume?.public && (
+                    <div 
+                      className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-1 text-[10px] bg-white/70 dark:bg-gray-800/70 px-1.5 py-0.5 rounded-full border border-slate-200/50 dark:border-gray-700/50 text-slate-500 dark:text-gray-400 group-hover:scale-105 transition-all"
+                    >
+                      <EyeIcon className="size-3" style={{ color: baseColor }} />
+                      <span>{resume?.views || 0} views</span>
+                    </div>
+                  )}
 
                   <p
                     className="absolute bottom-1 text-[11px] text-slate-400 group-hover:text-slate-500

@@ -11,6 +11,7 @@ import ExperienceForm from '../components/ExperienceForm'
 import EducationForm from '../components/EducationForm'
 import ProjectForm from '../components/ProjectForm'
 import SkillsForm from '../components/SkillsForm'
+import AiToolsForm from '../components/AiToolsForm'
 import { useSelector } from 'react-redux'
 import api from '../configs/api'
 import toast from 'react-hot-toast'
@@ -57,6 +58,7 @@ const ResumeBuilder = () => {
     { id: 'education', name: 'Education', icon: GraduationCap},
     { id: 'projects', name: 'Projects', icon: FolderIcon},
     { id: 'skills', name: 'Skills', icon: Sparkles},
+    { id: 'ai-tools', name: 'AI Co-Pilot', icon: Sparkles},
   ]
 
   const activeSection = sections[activeSectionIndex]
@@ -102,8 +104,46 @@ const changeResumeVisibility = async () => {
     
   }
 
-  const downloadResume = () => { 
-    window.print();
+  const downloadResume = async () => {
+    try {
+      toast.loading("Generating PDF...", { id: "pdf-gen" });
+      
+      const html2pdf = await new Promise((resolve, reject) => {
+        if (window.html2pdf) {
+          resolve(window.html2pdf);
+          return;
+        }
+        const script = document.createElement("script");
+        script.src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
+        script.onload = () => resolve(window.html2pdf);
+        script.onerror = () => reject(new Error("Failed to load PDF library"));
+        document.body.appendChild(script);
+      });
+
+      const element = document.getElementById("resume-preview");
+      if (!element) {
+        toast.dismiss("pdf-gen");
+        toast.error("Resume content not found");
+        return;
+      }
+
+      const opt = {
+        margin: 0.15,
+        filename: `${resumeData.title || 'resume'}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+
+      await html2pdf().set(opt).from(element).save();
+      toast.dismiss("pdf-gen");
+      toast.success("PDF Downloaded!");
+    } catch (error) {
+      console.error("PDF generation failed:", error);
+      toast.dismiss("pdf-gen");
+      toast.error("Failed to generate PDF. Falling back to browser print.");
+      window.print();
+    }
   }
 
  const saveResume = async () => { 
@@ -228,7 +268,14 @@ const changeResumeVisibility = async () => {
 
                {activeSection.id === 'skills' && (
               <SkillsForm data={resumeData.skills}
-              onChange={(data)=>setResumeData(prev => ({...prev, skills:data}))}/>
+              onChange={(data)=>setResumeData(prev => ({...prev, skills:data}))}
+              profession={resumeData.personal_info?.profession}
+              token={token}/>
+               )}
+
+               {activeSection.id === 'ai-tools' && (
+              <AiToolsForm resumeData={resumeData} setResumeData={setResumeData}
+              token={token} resumeId={resumeId}/>
                )}
 
           </div>
