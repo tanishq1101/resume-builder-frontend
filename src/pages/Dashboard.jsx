@@ -22,8 +22,6 @@ const Dashboard = () => {
   const { token } = useSelector((state) => state.auth);
   const storedToken = token || localStorage.getItem("token");
 
-  const API_BASE = import.meta.env.VITE_API_BASE || window.location.origin;
-
   const colors = ["#9333ea", "#d97706", "#dc2626", "#0284c7", "#16a34a"];
 
   const [allResumes, setAllResumes] = useState([]);
@@ -48,7 +46,7 @@ const Dashboard = () => {
     setAllResumes(Array.isArray(dummyResumeData) ? dummyResumeData : []);
 
     try {
-      const res = await api.get(`${API_BASE}/api/users/resumes`, getHeaders());
+      const res = await api.get('/api/users/resumes', getHeaders());
 
       if (typeof res.data === "string" && looksLikeHtml(res.data)) {
         toast.error("Backend returned HTML. Fix API_BASE.");
@@ -74,7 +72,7 @@ const Dashboard = () => {
 
     try {
       const res = await api.post(
-        `${API_BASE}/api/resumes/create`,
+        '/api/resumes/create',
         { title },
         getHeaders()
       );
@@ -111,7 +109,7 @@ const Dashboard = () => {
       const resumeText = await pdfToText(resume);
 
       const res = await api.post(
-        `${API_BASE}/api/ai/upload-resume`,
+        '/api/ai/upload-resume',
         { title, resumeText },
         getHeaders()
       );
@@ -141,7 +139,7 @@ const Dashboard = () => {
 
     try {
       const res = await api.put(
-        `${API_BASE}/api/resumes/update/`,
+        '/api/resumes/update',
         { resumeId: editResumeId, resumeData: { title } },
         getHeaders()
       );
@@ -171,7 +169,7 @@ const Dashboard = () => {
       if (!confirmDelete) return;
 
       const res = await api.delete(
-        `${API_BASE}/api/resumes/delete/${resumeId}`,
+        `/api/resumes/delete/${resumeId}`,
         getHeaders()
       );
 

@@ -1,8 +1,12 @@
-
-import { Plus, Trash2 } from 'lucide-react';
-import React from 'react'
+import { Plus, Trash2, Sparkles, Loader2 } from 'lucide-react';
+import React from 'react';
+import toast from 'react-hot-toast';
+import { useSelector } from 'react-redux';
+import api from '../configs/api';
 
 const ProjectForm = ({data, onChange}) => {
+     const { token } = useSelector(state => state.auth);
+     const [generatingIndex, setGeneratingIndex] = React.useState(-1);
 
      const addProject = () => {
         const newProject = {
@@ -23,6 +27,33 @@ const ProjectForm = ({data, onChange}) => {
         updated[index] = {...updated[index], [field]: value}
         onChange(updated);
     }
+
+    const generateProjectDescription = async (index) => {
+        const project = data[index];
+        if (!project.description) {
+            toast.error("Please enter a basic project description first.");
+            return;
+        }
+
+        setGeneratingIndex(index);
+        const userContent = project.description;
+        const context = `Project Name: ${project.name}, Type: ${project.type}`;
+
+        try {
+            const { data: resData } = await api.post(
+                '/api/ai/enhance',
+                { fieldType: "project", context, userContent },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+
+            updateProject(index, "description", resData.enhancedContent);
+            toast.success("Project description enhanced!");
+        } catch (error) {
+            toast.error(error?.response?.data?.message || error.message);
+        } finally {
+            setGeneratingIndex(-1);
+        }
+    };
 
   return (
     <div>
@@ -62,10 +93,29 @@ const ProjectForm = ({data, onChange}) => {
                     type="text" placeholder='Project Type' 
                     className='px-3 py-2 text-sm rounded-lg'/>
 
-                    <textarea rows={4} value={project.description || ""} 
-                    onChange={(e)=> updateProject(index, "description", e.target.value)}
-                     placeholder='Describe your project...' 
-                    className='px-3 py-2 w-full text-sm rounded-lg resize-none'/>
+                    <div className='space-y-2'>
+                        <div className='flex items-center justify-between'>
+                            <label className='text-xs font-semibold text-gray-500'>Project Description</label>
+                            <button 
+                                type="button"
+                                onClick={() => generateProjectDescription(index)}
+                                disabled={generatingIndex === index || !project.name}
+                                className='flex items-center gap-1 px-2 py-1 text-xs bg-purple-100
+                                text-purple-700 rounded-md hover:bg-purple-200 transition-colors disabled:opacity-50 cursor-pointer'
+                            >
+                                {generatingIndex === index ? (
+                                    <Loader2 className='w-3 h-3 animate-spin' />
+                                ) : (
+                                    <Sparkles className='w-3 h-3' />
+                                )}
+                                Enhance with AI
+                            </button>
+                        </div>
+                        <textarea rows={4} value={project.description || ""} 
+                        onChange={(e)=> updateProject(index, "description", e.target.value)}
+                        placeholder='Describe your project (technologies used, goals, outcomes)...' 
+                        className='px-3 py-2 w-full text-sm rounded-lg resize-none'/>
+                    </div>
 
                    
                         </div>

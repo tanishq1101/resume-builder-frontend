@@ -136,7 +136,11 @@ const ClassicTemplate = ({ data, accentColor, atsMode = false }) => {
                                         {edu.degree} {edu.field && `in ${edu.field}`}
                                     </h3>
                                     <p className="text-gray-700">{edu.institution}</p>
-                                    {edu.gpa && <p className="text-sm text-gray-600">GPA: {edu.gpa}</p>}
+                                    {edu.gpa && (
+                                        <p className="text-sm text-gray-600">
+                                            {edu.gpa_type === "percentage" ? "Percentage" : "GPA"}: {edu.gpa}
+                                        </p>
+                                    )}
                                 </div>
                                 <div className="text-sm text-gray-600">
                                     <p>{formatDate(edu.graduation_date)}</p>
@@ -173,7 +177,10 @@ const ClassicTemplate = ({ data, accentColor, atsMode = false }) => {
                     <ul className="list-disc pl-5 space-y-2">
                         {data.key_achievements.map((ach, index) => (
                             <li key={index} className="text-gray-700 text-sm">
-                                <strong>{ach.title}</strong>{ach.description && `: ${ach.description}`}
+                                <strong>{ach.title}</strong>
+                                {ach.issuer && <span> - {ach.issuer}</span>}
+                                {ach.date && <span> ({formatDate(ach.date)})</span>}
+                                {ach.description && <span>: {ach.description}</span>}
                             </li>
                         ))}
                     </ul>
@@ -189,7 +196,16 @@ const ClassicTemplate = ({ data, accentColor, atsMode = false }) => {
                     <ul className="list-disc pl-5 space-y-2">
                         {data.training_courses.map((course, index) => (
                             <li key={index} className="text-gray-700 text-sm">
-                                <strong>{course.name}</strong>{course.description && `: ${course.description}`}
+                                <strong>{course.name}</strong>
+                                {course.institution && <span> - {course.institution}</span>}
+                                {course.date && <span> ({formatDate(course.date)})</span>}
+                                {course.status && <span className="text-xs text-gray-500 italic ml-1">[{course.status}]</span>}
+                                {course.certificate_url && (
+                                    <a href={course.certificate_url} target="_blank" rel="noreferrer" className="text-blue-500 hover:underline text-xs ml-2">
+                                        (Credential)
+                                    </a>
+                                )}
+                                {course.description && <span>: {course.description}</span>}
                             </li>
                         ))}
                     </ul>

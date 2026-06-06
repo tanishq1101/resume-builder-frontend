@@ -3,7 +3,7 @@ import { Mail, User2Icon, Lock } from 'lucide-react'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import api from '../configs/api.js'
+import api, { API_BASE } from '../configs/api.js'
 import toast from 'react-hot-toast'
 import { login } from '../app/features/authSlice.js'
 
@@ -67,7 +67,7 @@ const Login = () => {
   }
 
   // ========== GOOGLE SIGN-IN ==========
-  const API_BASE = import.meta.env.VITE_API_BASE;
+
   const FRONTEND_ORIGIN = import.meta.env.VITE_FRONTEND_URL || window.location.origin;
 
   const handleGoogleSignIn = () => {

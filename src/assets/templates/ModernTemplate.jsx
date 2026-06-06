@@ -150,7 +150,11 @@ const ModernTemplate = ({ data, accentColor, atsMode = false }) => {
 										<p style={{ color: displayAccent }}>{edu.institution}</p>
 										<div className="flex justify-between items-center text-sm text-gray-600">
 											<span>{formatDate(edu.graduation_date)}</span>
-											{edu.gpa && <span>GPA: {edu.gpa}</span>}
+											{edu.gpa && (
+												<span>
+													{edu.gpa_type === "percentage" ? "Percentage" : "GPA"}: {edu.gpa}
+												</span>
+											)}
 										</div>
 									</div>
 								))}
@@ -189,7 +193,10 @@ const ModernTemplate = ({ data, accentColor, atsMode = false }) => {
 						<ul className="list-disc pl-5 space-y-2">
 							{data.key_achievements.map((ach, index) => (
 								<li key={index} className="text-gray-700 text-sm">
-									<strong>{ach.title}</strong>{ach.description && `: ${ach.description}`}
+									<strong>{ach.title}</strong>
+									{ach.issuer && <span> - {ach.issuer}</span>}
+									{ach.date && <span> ({formatDate(ach.date)})</span>}
+									{ach.description && <span>: {ach.description}</span>}
 								</li>
 							))}
 						</ul>
@@ -205,7 +212,16 @@ const ModernTemplate = ({ data, accentColor, atsMode = false }) => {
 						<ul className="list-disc pl-5 space-y-2">
 							{data.training_courses.map((course, index) => (
 								<li key={index} className="text-gray-700 text-sm">
-									<strong>{course.name}</strong>{course.description && `: ${course.description}`}
+									<strong>{course.name}</strong>
+									{course.institution && <span> - {course.institution}</span>}
+									{course.date && <span> ({formatDate(course.date)})</span>}
+									{course.status && <span className="text-xs text-gray-500 italic ml-1">[{course.status}]</span>}
+									{course.certificate_url && (
+										<a href={course.certificate_url} target="_blank" rel="noreferrer" className="text-blue-500 hover:underline text-xs ml-2">
+											(Credential)
+										</a>
+									)}
+									{course.description && <span>: {course.description}</span>}
 								</li>
 							))}
 						</ul>

@@ -158,7 +158,11 @@ const DoubleColumnTemplate = ({ data, accentColor, atsMode = false }) => {
                     <div>
                       <h3 className="font-bold text-gray-900">{edu.degree}</h3>
                       <p className="text-gray-700 font-medium">{edu.institution} {edu.field && `• ${edu.field}`}</p>
-                      {edu.gpa && <p className="text-[10px] text-gray-500 font-medium">GPA: {edu.gpa}</p>}
+                      {edu.gpa && (
+                        <p className="text-[10px] text-gray-500 font-medium">
+                          {edu.gpa_type === "percentage" ? "Percentage" : "GPA"}: {edu.gpa}
+                        </p>
+                      )}
                     </div>
                     <div className="text-[10px] text-gray-500 text-right">
                       <p>{formatDate(edu.graduation_date)}</p>
@@ -189,8 +193,12 @@ const DoubleColumnTemplate = ({ data, accentColor, atsMode = false }) => {
                       style={{ backgroundColor: atsMode ? "#111827" : displayAccent }}
                     />
                     <div className="space-y-0.5">
-                      <h4 className="text-xs font-bold text-gray-900 leading-tight">{ach.title}</h4>
-                      {ach.description && <p className="text-[10px] text-gray-600 leading-normal">{ach.description}</p>}
+                      <h4 className="text-xs font-bold text-gray-900 leading-tight">
+                        {ach.title}
+                        {ach.issuer && <span className="text-[10px] text-gray-500 font-normal"> - {ach.issuer}</span>}
+                        {ach.date && <span className="text-[9px] text-gray-400 font-normal ml-1"> ({formatDate(ach.date)})</span>}
+                      </h4>
+                      {ach.description && <p className="text-[10px] text-gray-600 leading-normal mt-0.5">{ach.description}</p>}
                     </div>
                   </div>
                 ))}
@@ -227,9 +235,19 @@ const DoubleColumnTemplate = ({ data, accentColor, atsMode = false }) => {
               <div className="space-y-3">
                 {data.training_courses.map((course, index) => (
                   <div key={index} className="space-y-0.5">
-                    <h4 className="text-xs font-bold text-gray-900 leading-tight">{course.name}</h4>
+                    <h4 className="text-xs font-bold text-gray-900 leading-tight">
+                      {course.name}
+                      {course.institution && <span className="text-[10px] text-gray-500 font-normal"> - {course.institution}</span>}
+                      {course.date && <span className="text-[9px] text-gray-400 font-normal ml-1"> ({formatDate(course.date)})</span>}
+                      {course.status && <span className="text-[9px] text-gray-400 font-normal italic ml-1"> [{course.status}]</span>}
+                      {course.certificate_url && (
+                        <a href={course.certificate_url} target="_blank" rel="noreferrer" className="text-[9px] text-blue-500 hover:underline font-normal ml-2">
+                          (Link)
+                        </a>
+                      )}
+                    </h4>
                     {course.description && (
-                      <p className="text-[10px] text-gray-600 leading-relaxed border-l border-gray-150 pl-2">
+                      <p className="text-[10px] text-gray-600 leading-relaxed border-l border-gray-150 pl-2 mt-0.5">
                         {course.description}
                       </p>
                     )}

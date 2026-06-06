@@ -108,7 +108,11 @@ const MinimalTemplate = ({ data, accentColor, atsMode = false }) => {
                                         {edu.degree} {edu.field && `in ${edu.field}`}
                                     </h3>
                                     <p className="text-gray-600">{edu.institution}</p>
-                                    {edu.gpa && <p className="text-sm text-gray-500">GPA: {edu.gpa}</p>}
+                                    {edu.gpa && (
+                                        <p className="text-sm text-gray-500">
+                                            {edu.gpa_type === "percentage" ? "Percentage" : "GPA"}: {edu.gpa}
+                                        </p>
+                                    )}
                                 </div>
                                 <span className="text-sm text-gray-500">
                                     {formatDate(edu.graduation_date)}
@@ -141,8 +145,12 @@ const MinimalTemplate = ({ data, accentColor, atsMode = false }) => {
                     <div className="space-y-4">
                         {data.key_achievements.map((ach, index) => (
                             <div key={index} className="space-y-1">
-                                <h3 className="font-medium text-base">{ach.title}</h3>
-                                {ach.description && <p className="text-gray-600 text-sm">{ach.description}</p>}
+                                <h3 className="font-medium text-base">
+                                    {ach.title}
+                                    {ach.issuer && <span className="text-sm text-gray-500 font-normal"> - {ach.issuer}</span>}
+                                    {ach.date && <span className="text-xs text-gray-400 font-normal ml-1"> ({formatDate(ach.date)})</span>}
+                                </h3>
+                                {ach.description && <p className="text-gray-600 text-sm mt-0.5">{ach.description}</p>}
                             </div>
                         ))}
                     </div>
@@ -158,8 +166,18 @@ const MinimalTemplate = ({ data, accentColor, atsMode = false }) => {
                     <div className="space-y-4">
                         {data.training_courses.map((course, index) => (
                             <div key={index} className="space-y-1">
-                                <h3 className="font-medium text-base">{course.name}</h3>
-                                {course.description && <p className="text-gray-600 text-sm">{course.description}</p>}
+                                <h3 className="font-medium text-base">
+                                    {course.name}
+                                    {course.institution && <span className="text-sm text-gray-500 font-normal"> - {course.institution}</span>}
+                                    {course.date && <span className="text-xs text-gray-400 font-normal ml-1"> ({formatDate(course.date)})</span>}
+                                    {course.status && <span className="text-xs text-gray-400 font-normal italic ml-1"> [{course.status}]</span>}
+                                    {course.certificate_url && (
+                                        <a href={course.certificate_url} target="_blank" rel="noreferrer" className="text-xs text-blue-500 hover:underline font-normal ml-2">
+                                            (Credential)
+                                        </a>
+                                    )}
+                                </h3>
+                                {course.description && <p className="text-gray-600 text-sm mt-0.5">{course.description}</p>}
                             </div>
                         ))}
                     </div>

@@ -3,14 +3,14 @@ import React from 'react'
 
 const EducationForm = ({data, onChange}) => {
 
-     const addEducation = () => {
+      const addEducation = () => {
         const newEducation = {
             institution: "",
             degree: "",
             field: "",
             graduation_date: "",
             gpa: "",
-            
+            gpa_type: "gpa"
         };
         onChange([...data, newEducation]);
     }
@@ -76,14 +76,48 @@ const EducationForm = ({data, onChange}) => {
                     type="text" className='px-3 py-2 text-sm ' 
                     placeholder='Field of Study'/>
 
-                    <input value={education.graduation_date || ""} 
-                    onChange={(e)=> updateEducation(index, "graduation_date", e.target.value)}
-                    type="month"  className='px-3 py-2 text-sm '/>
+                    <div className="flex flex-col gap-1">
+                      <label className="text-[11px] font-semibold text-gray-500">Graduation Date (completed or expected)</label>
+                      <input value={education.graduation_date || ""} 
+                      onChange={(e)=> updateEducation(index, "graduation_date", e.target.value)}
+                      type="month" className='px-3 py-2 text-sm w-full'/>
+                    </div>
                         </div>
 
-                    <input value={education.gpa || ""} 
-                    onChange={(e)=> updateEducation(index, "gpa", e.target.value)}
-                    type="text"  className='px-3 py-2 text-sm ' placeholder='GPA (optional)'/> 
+                    <div className='space-y-2'>
+                      <div className='flex items-center gap-3'>
+                        <span className='text-xs font-semibold text-gray-500'>Grading System:</span>
+                        <div className='flex rounded-md border border-gray-300 dark:border-gray-700 overflow-hidden'>
+                          <button
+                            type="button"
+                            onClick={() => updateEducation(index, "gpa_type", "gpa")}
+                            className={`px-3 py-1 text-xs font-medium transition-colors ${
+                              (education.gpa_type || "gpa") === "gpa"
+                                ? "bg-green-600 text-white"
+                                : "bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100"
+                            }`}
+                          >
+                            GPA
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => updateEducation(index, "gpa_type", "percentage")}
+                            className={`px-3 py-1 text-xs font-medium transition-colors ${
+                              education.gpa_type === "percentage"
+                                ? "bg-green-600 text-white"
+                                : "bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100"
+                            }`}
+                          >
+                            Percentage
+                          </button>
+                        </div>
+                      </div>
+
+                      <input value={education.gpa || ""} 
+                      onChange={(e)=> updateEducation(index, "gpa", e.target.value)}
+                      type="text" className='px-3 py-2 text-sm w-full' 
+                      placeholder={(education.gpa_type || "gpa") === "gpa" ? "GPA (optional, e.g. 3.8/4.0)" : "Percentage (optional, e.g. 85%)"}/> 
+                    </div> 
                 
                        
 

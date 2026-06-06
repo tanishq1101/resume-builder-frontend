@@ -92,6 +92,11 @@ const MinimalImageTemplate = ({ data, accentColor, atsMode = false }) => {
                                         <p className="text-xs text-zinc-500">
                                             {formatDate(edu.graduation_date)}
                                         </p>
+                                        {edu.gpa && (
+                                            <p className="text-xs text-zinc-500 font-medium mt-0.5">
+                                                {edu.gpa_type === "percentage" ? "Percentage" : "GPA"}: {edu.gpa}
+                                            </p>
+                                        )}
                                     </div>
                                 ))}
                             </div>
@@ -122,6 +127,8 @@ const MinimalImageTemplate = ({ data, accentColor, atsMode = false }) => {
                                 {data.key_achievements.map((ach, index) => (
                                     <li key={index}>
                                         <strong className="text-zinc-700">{ach.title}</strong>
+                                        {ach.issuer && <span className="text-[10px] text-zinc-500 block">Issuer: {ach.issuer}</span>}
+                                        {ach.date && <span className="text-[9px] text-zinc-400 block">Date: {formatDate(ach.date)}</span>}
                                         {ach.description && <p className="text-zinc-500 text-[10px] mt-0.5">{ach.description}</p>}
                                     </li>
                                 ))}
@@ -230,7 +237,17 @@ const MinimalImageTemplate = ({ data, accentColor, atsMode = false }) => {
                             <div className="space-y-4">
                                 {data.training_courses.map((course, index) => (
                                     <div key={index} className="mt-3">
-                                        <h3 className="text-md font-medium text-zinc-800">{course.name}</h3>
+                                        <h3 className="text-md font-medium text-zinc-800">
+                                            {course.name}
+                                            {course.institution && <span className="text-xs text-zinc-500 font-normal"> - {course.institution}</span>}
+                                            {course.date && <span className="text-xs text-zinc-400 font-normal ml-1"> ({formatDate(course.date)})</span>}
+                                            {course.status && <span className="text-xs text-zinc-400 font-normal italic ml-1"> [{course.status}]</span>}
+                                            {course.certificate_url && (
+                                                <a href={course.certificate_url} target="_blank" rel="noreferrer" className="text-xs text-blue-500 hover:underline font-normal ml-2">
+                                                    (Credential)
+                                                </a>
+                                            )}
+                                        </h3>
                                         {course.description && <p className="text-sm text-zinc-600 pl-2 border-l border-zinc-200 mt-1">{course.description}</p>}
                                     </div>
                                 ))}
