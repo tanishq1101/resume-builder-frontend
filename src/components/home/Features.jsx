@@ -7,7 +7,7 @@ const Features = () => {
         <div id='features' className='flex flex-col items-center justify-center my-10 scroll-mt-12 dark:bg-gray-950 transition-colors duration-300'>
 
 
-            <div className="flex items-center gap-2 text-sm text-green-600 dark:text-green-400 bg-green-400/10 dark:bg-green-900/30 border dark:border-green-800 rounded-full px-4 py-1">
+            <div className="flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400 bg-blue-400/10 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800 rounded-full px-4 py-1">
                 <Zap width={14} />
                 <span>Simple Process</span>
             </div>
@@ -29,8 +29,8 @@ const Features = () => {
                         </div>
                     </div>
                     <div className="flex items-center justify-center gap-6 max-w-md group cursor-pointer">
-                        <div className="p-6 group-hover:bg-green-100 dark:group-hover:bg-green-900/30 border border-transparent group-hover:border-green-300 dark:group-hover:border-green-700 flex gap-4 rounded-xl transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-6 stroke-green-600 dark:stroke-green-400"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" /></svg>
+                        <div className="p-6 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/30 border border-transparent group-hover:border-blue-300 dark:group-hover:border-blue-700 flex gap-4 rounded-xl transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-6 stroke-blue-600 dark:stroke-blue-400"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" /></svg>
                             <div className="space-y-2">
                                 <h3 className="text-base font-semibold text-slate-700 dark:text-gray-200">Bank-Grade Security</h3>
                                 <p className="text-sm text-slate-600 dark:text-gray-400 max-w-xs">End-to-end encryption, 2FA, compliance with GDPR standards.</p>
