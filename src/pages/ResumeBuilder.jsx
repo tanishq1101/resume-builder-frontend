@@ -18,6 +18,7 @@ import InterestsForm from '../components/InterestsForm'
 import { useSelector } from 'react-redux'
 import api from '../configs/api'
 import toast from 'react-hot-toast'
+import html2canvas from 'html2canvas-pro'
 const ResumeBuilder = () => {
 
   const {resumeId} = useParams()
@@ -121,6 +122,8 @@ const changeResumeVisibility = async () => {
       // Set waiting cursor and yield to browser event loop to repaint UI & show toast
       document.body.style.cursor = 'wait';
       await new Promise((resolve) => setTimeout(resolve, 300));
+
+      window.html2canvas = html2canvas;
 
       const html2pdf = await new Promise((resolve, reject) => {
         if (window.html2pdf) {
