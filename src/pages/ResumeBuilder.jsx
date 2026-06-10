@@ -141,8 +141,9 @@ const changeResumeVisibility = async () => {
         margin: 0.15,
         filename: `${resumeData.title || 'resume'}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, letterRendering: true },
-        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        html2canvas: { scale: 2, useCORS: true, letterRendering: true, backgroundColor: '#ffffff' },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+        pagebreak: { mode: ['css', 'legacy'] }
       };
 
       await html2pdf().set(opt).from(element).save();

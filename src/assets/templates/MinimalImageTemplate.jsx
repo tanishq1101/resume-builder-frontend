@@ -52,7 +52,7 @@ const MinimalImageTemplate = ({ data, accentColor, atsMode = false }) => {
 
 
                     {/* Contact */}
-                    <section className="mb-8">
+                    <section className="mb-8 break-inside-avoid">
                         <h2 className="text-sm font-semibold tracking-widest text-zinc-600 mb-3">
                             CONTACT
                         </h2>
@@ -86,7 +86,7 @@ const MinimalImageTemplate = ({ data, accentColor, atsMode = false }) => {
                             </h2>
                             <div className="space-y-4 text-sm">
                                 {data.education.map((edu, index) => (
-                                    <div key={index}>
+                                    <div key={index} className="break-inside-avoid">
                                         <p className="font-semibold uppercase">{edu.degree}</p>
                                         <p className="text-zinc-600">{edu.institution}</p>
                                         <p className="text-xs text-zinc-500">
@@ -105,13 +105,13 @@ const MinimalImageTemplate = ({ data, accentColor, atsMode = false }) => {
 
                     {/* Skills */}
                     {data.skills && data.skills.length > 0 && (
-                        <section>
+                        <section className="break-inside-avoid">
                             <h2 className="text-sm font-semibold tracking-widest text-zinc-600 mb-3">
                                 SKILLS
                             </h2>
                             <ul className="space-y-1 text-sm">
                                 {data.skills.map((skill, index) => (
-                                    <li key={index}>{skill}</li>
+                                    <li key={index} className="break-inside-avoid">{skill}</li>
                                 ))}
                             </ul>
                         </section>
@@ -125,7 +125,7 @@ const MinimalImageTemplate = ({ data, accentColor, atsMode = false }) => {
                             </h2>
                             <ul className="space-y-3 text-xs leading-relaxed">
                                 {data.key_achievements.map((ach, index) => (
-                                    <li key={index}>
+                                    <li key={index} className="break-inside-avoid">
                                         <strong className="text-zinc-700">{ach.title}</strong>
                                         {ach.issuer && <span className="text-[10px] text-zinc-500 block">Issuer: {ach.issuer}</span>}
                                         {ach.date && <span className="text-[9px] text-zinc-400 block">Date: {formatDate(ach.date)}</span>}
@@ -138,13 +138,13 @@ const MinimalImageTemplate = ({ data, accentColor, atsMode = false }) => {
 
                     {/* Interests */}
                     {data.interests && data.interests.length > 0 && (
-                        <section className="mb-8 mt-6">
+                        <section className="mb-8 mt-6 break-inside-avoid">
                             <h2 className="text-sm font-semibold tracking-widest text-zinc-600 mb-3">
                                 INTERESTS
                             </h2>
                             <ul className="space-y-1 text-xs">
                                 {data.interests.map((interest, index) => (
-                                    <li key={index}>
+                                    <li key={index} className="break-inside-avoid">
                                         <strong>{interest.name}</strong>{interest.description && `: ${interest.description}`}
                                     </li>
                                 ))}
@@ -176,7 +176,7 @@ const MinimalImageTemplate = ({ data, accentColor, atsMode = false }) => {
                             </h2>
                             <div className="space-y-6 mb-8">
                                 {data.experience.map((exp, index) => (
-                                    <div key={index}>
+                                    <div key={index} className="break-inside-avoid">
                                         <div className="flex justify-between items-center">
                                             <h3 className="font-semibold text-zinc-900">
                                                 {exp.position}
@@ -210,7 +210,7 @@ const MinimalImageTemplate = ({ data, accentColor, atsMode = false }) => {
                             </h2>
                             <div className="space-y-4">
                                 {data.projects.map((project, index) => (
-                                    <div key={index}>
+                                    <div key={index} className="break-inside-avoid">
                                         <h3 className="text-md font-medium text-zinc-800 mt-3">{project.name}</h3>
                                         <p className="text-sm mb-1" style={{ color: displayAccent }} >
                                             {project.type}
@@ -236,7 +236,7 @@ const MinimalImageTemplate = ({ data, accentColor, atsMode = false }) => {
                             </h2>
                             <div className="space-y-4">
                                 {data.training_courses.map((course, index) => (
-                                    <div key={index} className="mt-3">
+                                    <div key={index} className="mt-3 break-inside-avoid">
                                         <h3 className="text-md font-medium text-zinc-800">
                                             {course.name}
                                             {course.institution && <span className="text-xs text-zinc-500 font-normal"> - {course.institution}</span>}

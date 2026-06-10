@@ -7,16 +7,25 @@ const ColorPicker = ({selectedColor, onChange}) => {
 
 const colors = [
     {name: "Blue", value: "#3B82F6"},
+    {name: "Deep Blue", value: "#1D4ED8"},
     {name: "Green", value: "#22C55E"},
+    {name: "Emerald", value: "#059669"},
     {name: "Red", value: "#EF4444"},
+    {name: "Crimson", value: "#DC2626"},
     {name: "Purple", value: "#8B5CF6"},
+    {name: "Violet", value: "#7C3AED"},
     {name: "Orange", value: "#F97316"},
+    {name: "Amber", value: "#D97706"},
     {name: "Pink", value: "#EC4899"},
+    {name: "Rose", value: "#E11D48"},
     {name: "Teal", value: "#14B8A6"},
+    {name: "Cyan", value: "#0891B2"},
     {name: "Indigo", value: "#6366F1"},
+    {name: "Purple-Indigo", value: "#4F46E5"},
+    {name: "Gold/Bronze", value: "#B45309"},
     {name: "Black", value: "#1F2937"},
     {name: "Gray", value: "#6B7280"},
-
+    {name: "Slate", value: "#475569"},
 ]
 
 const [isOpen, setIsOpen] = useState(false);

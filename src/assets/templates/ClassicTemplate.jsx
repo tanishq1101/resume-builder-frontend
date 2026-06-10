@@ -80,7 +80,7 @@ const ClassicTemplate = ({ data, accentColor, atsMode = false }) => {
 
                     <div className="space-y-4">
                         {data.experience.map((exp, index) => (
-                            <div key={index} className="border-l-3 pl-4" style={{ borderColor: borderAccent }}>
+                            <div key={index} className="border-l-3 pl-4 break-inside-avoid" style={{ borderColor: borderAccent }}>
                                 <div className="flex justify-between items-start mb-2">
                                     <div>
                                         <h3 className="font-semibold text-gray-900">{exp.position}</h3>
@@ -110,7 +110,7 @@ const ClassicTemplate = ({ data, accentColor, atsMode = false }) => {
 
         <ul className="space-y-3">
             {data.projects.map((proj, index) => (
-                <li key={index} className="border-l-3 pl-6" style={{ borderColor: borderAccent }}>
+                <li key={index} className="border-l-3 pl-6 break-inside-avoid" style={{ borderColor: borderAccent }}>
                     <h3 className="font-semibold text-gray-800">{proj.name}</h3>
                     {proj.type && <p className="text-sm text-gray-600 italic">{proj.type}</p>}
                     <p className="text-gray-700 leading-relaxed whitespace-pre-line">{proj.description}</p>
@@ -130,7 +130,7 @@ const ClassicTemplate = ({ data, accentColor, atsMode = false }) => {
 
                     <div className="space-y-3">
                         {data.education.map((edu, index) => (
-                            <div key={index} className="flex justify-between items-start">
+                            <div key={index} className="flex justify-between items-start break-inside-avoid">
                                 <div>
                                     <h3 className="font-semibold text-gray-900">
                                         {edu.degree} {edu.field && `in ${edu.field}`}
@@ -153,7 +153,7 @@ const ClassicTemplate = ({ data, accentColor, atsMode = false }) => {
 
             {/* Skills */}
             {data.skills && data.skills.length > 0 && (
-                <section className="mb-6">
+                <section className="mb-6 break-inside-avoid">
                     <h2 className="text-xl font-semibold mb-4" style={{ color: displayAccent }}>
                         CORE SKILLS
                     </h2>
@@ -176,7 +176,7 @@ const ClassicTemplate = ({ data, accentColor, atsMode = false }) => {
                     </h2>
                     <ul className="list-disc pl-5 space-y-2">
                         {data.key_achievements.map((ach, index) => (
-                            <li key={index} className="text-gray-700 text-sm">
+                            <li key={index} className="text-gray-700 text-sm break-inside-avoid">
                                 <strong>{ach.title}</strong>
                                 {ach.issuer && <span> - {ach.issuer}</span>}
                                 {ach.date && <span> ({formatDate(ach.date)})</span>}
@@ -195,7 +195,7 @@ const ClassicTemplate = ({ data, accentColor, atsMode = false }) => {
                     </h2>
                     <ul className="list-disc pl-5 space-y-2">
                         {data.training_courses.map((course, index) => (
-                            <li key={index} className="text-gray-700 text-sm">
+                            <li key={index} className="text-gray-700 text-sm break-inside-avoid">
                                 <strong>{course.name}</strong>
                                 {course.institution && <span> - {course.institution}</span>}
                                 {course.date && <span> ({formatDate(course.date)})</span>}
@@ -220,7 +220,7 @@ const ClassicTemplate = ({ data, accentColor, atsMode = false }) => {
                     </h2>
                     <div className="flex gap-4 flex-wrap">
                         {data.interests.map((interest, index) => (
-                            <div key={index} className="text-gray-700 text-sm">
+                            <div key={index} className="text-gray-700 text-sm break-inside-avoid">
                                 • <strong>{interest.name}</strong>{interest.description && `: ${interest.description}`}
                             </div>
                         ))}

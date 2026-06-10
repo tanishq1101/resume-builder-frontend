@@ -19,6 +19,18 @@ const templates = [
     layout: "double"
   },
   {
+    id: "creative",
+    name: "Creative Executive",
+    preview: "A premium, eye-catching layout designed to highlight leadership and creative experience.",
+    layout: "creative"
+  },
+  {
+    id: "tech",
+    name: "Tech Developer",
+    preview: "Optimized for software engineers and tech professionals, focusing on projects and skills.",
+    layout: "tech"
+  },
+  {
     id: "modern",
     name: "Modern",
     preview: "Sleek design with strategic use of color and modern font choices",
@@ -96,6 +108,31 @@ const renderThumbnail = (layout) => {
             <div className='h-2 rounded bg-gray-200' />
             <div className='h-2 rounded bg-gray-200' />
             <div className='h-2 rounded bg-gray-200' />
+          </div>
+        </div>
+      )
+    case "creative":
+      return (
+        <div className='space-y-1.5'>
+          <div className='h-3 rounded bg-(--brand-primary)/85 w-full' />
+          <div className='grid grid-cols-3 gap-1.5'>
+            <div className='h-2 rounded bg-(--brand-primary-light)/30' />
+            <div className='col-span-2 h-2 rounded bg-gray-250' />
+            <div className='h-2 rounded bg-gray-200' />
+            <div className='col-span-2 h-2 rounded bg-gray-200' />
+          </div>
+        </div>
+      )
+    case "tech":
+      return (
+        <div className='space-y-1.5'>
+          <div className='h-3 rounded border border-(--brand-primary)/60 w-3/5' />
+          <div className='grid grid-cols-4 gap-1.5'>
+            <div className='col-span-3 space-y-1'>
+              <div className='h-2 rounded bg-gray-250' />
+              <div className='h-2 rounded bg-gray-200' />
+            </div>
+            <div className='col-span-1 h-3 rounded bg-(--brand-primary-light)/40' />
           </div>
         </div>
       )

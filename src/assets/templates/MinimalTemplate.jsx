@@ -56,7 +56,7 @@ const MinimalTemplate = ({ data, accentColor, atsMode = false }) => {
 
                     <div className="space-y-6">
                         {data.experience.map((exp, index) => (
-                            <div key={index}>
+                            <div key={index} className="break-inside-avoid">
                                 <div className="flex justify-between items-baseline mb-1">
                                     <h3 className="text-lg font-medium">{exp.position}</h3>
                                     <span className="text-sm text-gray-500">
@@ -84,7 +84,7 @@ const MinimalTemplate = ({ data, accentColor, atsMode = false }) => {
 
                     <div className="space-y-4">
                         {data.projects.map((proj, index) => (
-                            <div key={index} className="flex flex-col gap-2 justify-between items-baseline">
+                            <div key={index} className="flex flex-col gap-2 justify-between items-baseline break-inside-avoid">
                                 <h3 className="text-lg font-medium ">{proj.name}</h3>
                                 <p className="text-gray-600">{proj.description}</p>
                             </div>
@@ -102,7 +102,7 @@ const MinimalTemplate = ({ data, accentColor, atsMode = false }) => {
 
                     <div className="space-y-4">
                         {data.education.map((edu, index) => (
-                            <div key={index} className="flex justify-between items-baseline">
+                            <div key={index} className="flex justify-between items-baseline break-inside-avoid">
                                 <div>
                                     <h3 className="font-medium">
                                         {edu.degree} {edu.field && `in ${edu.field}`}
@@ -125,7 +125,7 @@ const MinimalTemplate = ({ data, accentColor, atsMode = false }) => {
 
             {/* Skills */}
             {data.skills && data.skills.length > 0 && (
-                <section className="mb-10">
+                <section className="mb-10 break-inside-avoid">
                     <h2 className="text-sm uppercase tracking-widest mb-6 font-medium" style={{ color: displayAccent }}>
                         Skills
                     </h2>
@@ -144,7 +144,7 @@ const MinimalTemplate = ({ data, accentColor, atsMode = false }) => {
                     </h2>
                     <div className="space-y-4">
                         {data.key_achievements.map((ach, index) => (
-                            <div key={index} className="space-y-1">
+                            <div key={index} className="space-y-1 break-inside-avoid">
                                 <h3 className="font-medium text-base">
                                     {ach.title}
                                     {ach.issuer && <span className="text-sm text-gray-500 font-normal"> - {ach.issuer}</span>}
@@ -165,7 +165,7 @@ const MinimalTemplate = ({ data, accentColor, atsMode = false }) => {
                     </h2>
                     <div className="space-y-4">
                         {data.training_courses.map((course, index) => (
-                            <div key={index} className="space-y-1">
+                            <div key={index} className="space-y-1 break-inside-avoid">
                                 <h3 className="font-medium text-base">
                                     {course.name}
                                     {course.institution && <span className="text-sm text-gray-500 font-normal"> - {course.institution}</span>}
@@ -186,7 +186,7 @@ const MinimalTemplate = ({ data, accentColor, atsMode = false }) => {
 
             {/* Interests */}
             {data.interests && data.interests.length > 0 && (
-                <section className="mb-10">
+                <section className="mb-10 break-inside-avoid">
                     <h2 className="text-sm uppercase tracking-widest mb-6 font-medium" style={{ color: accentColor }}>
                         Interests
                     </h2>

@@ -4,6 +4,8 @@ import ModernTemplate from '../assets/templates/ModernTemplate'
 import MinimalTemplate from '../assets/templates/MinimalTemplate'
 import MinimalImageTemplate from '../assets/templates/MinimalImageTemplate'
 import DoubleColumnTemplate from '../assets/templates/DoubleColumnTemplate'
+import CreativeTemplate from '../assets/templates/CreativeTemplate'
+import TechTemplate from '../assets/templates/TechTemplate'
 
 
 const ResumePreview = ({data, template, accentColor, classes = " ", atsMode = false}) => {
@@ -24,6 +26,12 @@ const ResumePreview = ({data, template, accentColor, classes = " ", atsMode = fa
             case "double-column":
                 return <DoubleColumnTemplate data={data} accentColor={displayAccent} atsMode={atsMode}/>;
             
+            case "creative":
+                return <CreativeTemplate data={data} accentColor={displayAccent} atsMode={atsMode}/>;
+
+            case "tech":
+                return <TechTemplate data={data} accentColor={displayAccent} atsMode={atsMode}/>;
+
             default:
                 return <ClassicTemplate data={data} accentColor={displayAccent} atsMode={atsMode}/>;
             
@@ -32,7 +40,7 @@ const ResumePreview = ({data, template, accentColor, classes = " ", atsMode = fa
 
   return (
     <div className={`w-full ${atsMode ? 'bg-white' : 'bg-gray-100'}`}>
-        <div id='resume-preview' className={'border border-gray-200 print:shadow-none print:border-none' + classes}>
+        <div id='resume-preview' className={'bg-white w-full border border-gray-200 print:shadow-none print:border-none' + classes}>
         {renderTemplate()}
         </div>
 
@@ -41,6 +49,10 @@ const ResumePreview = ({data, template, accentColor, classes = " ", atsMode = fa
             @page {
                 size: letter;
                 margin: 0;
+            }
+            .break-inside-avoid {
+                break-inside: avoid;
+                page-break-inside: avoid;
             }
             @media print {
                 html, body {
@@ -63,7 +75,7 @@ const ResumePreview = ({data, template, accentColor, classes = " ", atsMode = fa
                     margin: 0;
                     padding: 0;
                     box-shadow: none !important;
-                    border: !important;
+                    border: none !important;
                 }
             }
             `}

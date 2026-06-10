@@ -83,7 +83,7 @@ const ModernTemplate = ({ data, accentColor, atsMode = false }) => {
 
 						<div className="space-y-6">
 							{data.experience.map((exp, index) => (
-								<div key={index} className="relative pl-6 border-l border-gray-200">
+								<div key={index} className="relative pl-6 border-l border-gray-200 break-inside-avoid">
 
 									<div className="flex justify-between items-start mb-2">
 										<div>
@@ -114,7 +114,7 @@ const ModernTemplate = ({ data, accentColor, atsMode = false }) => {
 
 						<div className="space-y-6">
 							{data.projects.map((p, index) => (
-								<div key={index} className="relative pl-6 border-l border-gray-200" style={{borderLeftColor: displayAccent}}>
+								<div key={index} className="relative pl-6 border-l border-gray-200 break-inside-avoid" style={{borderLeftColor: displayAccent}}>
 
 
 									<div className="flex justify-between items-start">
@@ -143,7 +143,7 @@ const ModernTemplate = ({ data, accentColor, atsMode = false }) => {
 
 							<div className="space-y-4">
 								{data.education.map((edu, index) => (
-									<div key={index}>
+									<div key={index} className="break-inside-avoid">
 										<h3 className="font-semibold text-gray-900">
 											{edu.degree} {edu.field && `in ${edu.field}`}
 										</h3>
@@ -164,7 +164,7 @@ const ModernTemplate = ({ data, accentColor, atsMode = false }) => {
 
 					{/* Skills */}
 					{data.skills && data.skills.length > 0 && (
-						<section>
+						<section className="break-inside-avoid">
 							<h2 className="text-2xl font-light mb-4 pb-2 border-b border-gray-200">
 								Skills
 							</h2>
@@ -192,7 +192,7 @@ const ModernTemplate = ({ data, accentColor, atsMode = false }) => {
 						</h2>
 						<ul className="list-disc pl-5 space-y-2">
 							{data.key_achievements.map((ach, index) => (
-								<li key={index} className="text-gray-700 text-sm">
+								<li key={index} className="text-gray-700 text-sm break-inside-avoid">
 									<strong>{ach.title}</strong>
 									{ach.issuer && <span> - {ach.issuer}</span>}
 									{ach.date && <span> ({formatDate(ach.date)})</span>}
@@ -211,7 +211,7 @@ const ModernTemplate = ({ data, accentColor, atsMode = false }) => {
 						</h2>
 						<ul className="list-disc pl-5 space-y-2">
 							{data.training_courses.map((course, index) => (
-								<li key={index} className="text-gray-700 text-sm">
+								<li key={index} className="text-gray-700 text-sm break-inside-avoid">
 									<strong>{course.name}</strong>
 									{course.institution && <span> - {course.institution}</span>}
 									{course.date && <span> ({formatDate(course.date)})</span>}
@@ -236,7 +236,7 @@ const ModernTemplate = ({ data, accentColor, atsMode = false }) => {
 						</h2>
 						<div className="flex flex-wrap gap-2">
 							{data.interests.map((interest, index) => (
-								<span key={index} className="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-full">
+								<span key={index} className="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-full break-inside-avoid">
 									<strong>{interest.name}</strong>{interest.description && `: ${interest.description}`}
 								</span>
 							))}

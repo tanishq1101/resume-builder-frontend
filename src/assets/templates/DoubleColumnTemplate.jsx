@@ -74,12 +74,12 @@ const DoubleColumnTemplate = ({ data, accentColor, atsMode = false }) => {
       {/* Main Grid Content */}
       <div className="grid grid-cols-3 gap-8 p-8">
         
-        {/* Left Column (2/3 Width): Summary, Experience, Projects, Education */}
+        {/* Left Column (2/3 Width): Summary, Experience, Projects */}
         <div className="col-span-2 space-y-8 pr-2 border-r border-gray-100">
           
           {/* Summary */}
           {data.professional_summary && (
-            <section className="space-y-2">
+            <section className="space-y-2 break-inside-avoid">
               <h2 className="text-base font-bold tracking-wider uppercase border-b-2 pb-1" style={{ color: displayAccent, borderColor: borderAccent }}>
                 Summary
               </h2>
@@ -97,7 +97,7 @@ const DoubleColumnTemplate = ({ data, accentColor, atsMode = false }) => {
               </h2>
               <div className="space-y-4">
                 {data.experience.map((exp, index) => (
-                  <div key={index} className="space-y-1.5">
+                  <div key={index} className="space-y-1.5 break-inside-avoid">
                     <div className="flex justify-between items-start">
                       <div>
                         <h3 className="font-bold text-xs text-gray-900">{exp.position}</h3>
@@ -126,7 +126,7 @@ const DoubleColumnTemplate = ({ data, accentColor, atsMode = false }) => {
               </h2>
               <div className="space-y-4">
                 {data.projects.map((proj, index) => (
-                  <div key={index} className="space-y-1.5">
+                  <div key={index} className="space-y-1.5 break-inside-avoid">
                     <div className="flex items-center gap-2">
                       <h3 className="font-bold text-xs text-gray-900">{proj.name}</h3>
                       {proj.type && (
@@ -146,26 +146,29 @@ const DoubleColumnTemplate = ({ data, accentColor, atsMode = false }) => {
             </section>
           )}
 
+        </div>
+
+        {/* Right Column (1/3 Width): Education, Achievements, Skills, Courses, Interests */}
+        <div className="col-span-1 space-y-8 pl-2">
+          
           {/* Education */}
           {data.education && data.education.length > 0 && (
-            <section className="space-y-4">
+            <section className="space-y-3 break-inside-avoid">
               <h2 className="text-base font-bold tracking-wider uppercase border-b-2 pb-1" style={{ color: displayAccent, borderColor: borderAccent }}>
                 Education
               </h2>
               <div className="space-y-3">
                 {data.education.map((edu, index) => (
-                  <div key={index} className="flex justify-between items-start text-xs">
-                    <div>
-                      <h3 className="font-bold text-gray-900">{edu.degree}</h3>
-                      <p className="text-gray-700 font-medium">{edu.institution} {edu.field && `• ${edu.field}`}</p>
+                  <div key={index} className="space-y-1 break-inside-avoid">
+                    <h3 className="font-bold text-xs text-gray-900 leading-tight">{edu.degree}</h3>
+                    <p className="text-[11px] text-gray-700 font-semibold">{edu.institution} {edu.field && `• ${edu.field}`}</p>
+                    <div className="flex justify-between text-[10px] text-gray-500 mt-1">
+                      <span>{formatDate(edu.graduation_date)}</span>
                       {edu.gpa && (
-                        <p className="text-[10px] text-gray-500 font-medium">
+                        <span>
                           {edu.gpa_type === "percentage" ? "Percentage" : "GPA"}: {edu.gpa}
-                        </p>
+                        </span>
                       )}
-                    </div>
-                    <div className="text-[10px] text-gray-500 text-right">
-                      <p>{formatDate(edu.graduation_date)}</p>
                     </div>
                   </div>
                 ))}
@@ -173,20 +176,15 @@ const DoubleColumnTemplate = ({ data, accentColor, atsMode = false }) => {
             </section>
           )}
 
-        </div>
-
-        {/* Right Column (1/3 Width): Achievements, Skills, Courses, Interests */}
-        <div className="col-span-1 space-y-8 pl-2">
-          
           {/* Key Achievements */}
           {data.key_achievements && data.key_achievements.length > 0 && (
-            <section className="space-y-3">
+            <section className="space-y-3 break-inside-avoid">
               <h2 className="text-base font-bold tracking-wider uppercase border-b-2 pb-1" style={{ color: displayAccent, borderColor: borderAccent }}>
                 Achievements
               </h2>
               <div className="space-y-3">
                 {data.key_achievements.map((ach, index) => (
-                  <div key={index} className="flex gap-2">
+                  <div key={index} className="flex gap-2 break-inside-avoid">
                     {/* Visual Square bullet point */}
                     <div 
                       className="size-1.5 rounded-xs mt-1 shrink-0"
@@ -208,7 +206,7 @@ const DoubleColumnTemplate = ({ data, accentColor, atsMode = false }) => {
 
           {/* Skills */}
           {data.skills && data.skills.length > 0 && (
-            <section className="space-y-3">
+            <section className="space-y-3 break-inside-avoid">
               <h2 className="text-base font-bold tracking-wider uppercase border-b-2 pb-1" style={{ color: displayAccent, borderColor: borderAccent }}>
                 Skills
               </h2>
@@ -228,13 +226,13 @@ const DoubleColumnTemplate = ({ data, accentColor, atsMode = false }) => {
 
           {/* Training / Courses */}
           {data.training_courses && data.training_courses.length > 0 && (
-            <section className="space-y-3">
+            <section className="space-y-3 break-inside-avoid">
               <h2 className="text-base font-bold tracking-wider uppercase border-b-2 pb-1" style={{ color: displayAccent, borderColor: borderAccent }}>
                 Training
               </h2>
               <div className="space-y-3">
                 {data.training_courses.map((course, index) => (
-                  <div key={index} className="space-y-0.5">
+                  <div key={index} className="space-y-0.5 break-inside-avoid">
                     <h4 className="text-xs font-bold text-gray-900 leading-tight">
                       {course.name}
                       {course.institution && <span className="text-[10px] text-gray-500 font-normal"> - {course.institution}</span>}
@@ -259,13 +257,13 @@ const DoubleColumnTemplate = ({ data, accentColor, atsMode = false }) => {
 
           {/* Interests */}
           {data.interests && data.interests.length > 0 && (
-            <section className="space-y-3">
+            <section className="space-y-3 break-inside-avoid">
               <h2 className="text-base font-bold tracking-wider uppercase border-b-2 pb-1" style={{ color: displayAccent, borderColor: borderAccent }}>
                 Interests
               </h2>
               <div className="space-y-2.5">
                 {data.interests.map((interest, index) => (
-                  <div key={index} className="flex gap-2">
+                  <div key={index} className="flex gap-2 break-inside-avoid">
                     <div 
                       className="size-1.5 rounded-full mt-1 shrink-0"
                       style={{ backgroundColor: atsMode ? "#111827" : displayAccent }}
