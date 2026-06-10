@@ -146,9 +146,46 @@ const DoubleColumnTemplate = ({ data, accentColor, atsMode = false }) => {
             </section>
           )}
 
+          {/* Training / Courses */}
+          {data.training_courses && data.training_courses.length > 0 && (
+            <section className="space-y-4">
+              <h2 className="text-base font-bold tracking-wider uppercase border-b-2 pb-1" style={{ color: displayAccent, borderColor: borderAccent }}>
+                Training / Courses
+              </h2>
+              <div className="space-y-4">
+                {data.training_courses.map((course, index) => (
+                  <div key={index} className="space-y-1.5 break-inside-avoid">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h4 className="font-bold text-xs text-gray-900">{course.name}</h4>
+                        <p className="text-xs text-gray-755 font-semibold text-gray-700">{course.institution}</p>
+                      </div>
+                      <div className="text-right text-[10px] text-gray-500 whitespace-nowrap">
+                        <p>
+                          {course.date && formatDate(course.date)}
+                          {course.status && <span className="italic ml-1">[{course.status}]</span>}
+                          {course.certificate_url && (
+                            <a href={course.certificate_url} target="_blank" rel="noreferrer" className="text-blue-500 hover:underline ml-2">
+                              (Link)
+                            </a>
+                          )}
+                        </p>
+                      </div>
+                    </div>
+                    {course.description && (
+                      <p className="text-[11px] text-gray-650 leading-relaxed whitespace-pre-line pl-2 border-l border-gray-200">
+                        {course.description}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
         </div>
 
-        {/* Right Column (1/3 Width): Education, Achievements, Skills, Courses, Interests */}
+        {/* Right Column (1/3 Width): Education, Achievements, Skills, Interests */}
         <div className="col-span-1 space-y-8 pl-2">
           
           {/* Education */}
@@ -219,37 +256,6 @@ const DoubleColumnTemplate = ({ data, accentColor, atsMode = false }) => {
                   >
                     {skill}
                   </span>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* Training / Courses */}
-          {data.training_courses && data.training_courses.length > 0 && (
-            <section className="space-y-3 break-inside-avoid">
-              <h2 className="text-base font-bold tracking-wider uppercase border-b-2 pb-1" style={{ color: displayAccent, borderColor: borderAccent }}>
-                Training
-              </h2>
-              <div className="space-y-3">
-                {data.training_courses.map((course, index) => (
-                  <div key={index} className="space-y-0.5 break-inside-avoid">
-                    <h4 className="text-xs font-bold text-gray-900 leading-tight">
-                      {course.name}
-                      {course.institution && <span className="text-[10px] text-gray-500 font-normal"> - {course.institution}</span>}
-                      {course.date && <span className="text-[9px] text-gray-400 font-normal ml-1"> ({formatDate(course.date)})</span>}
-                      {course.status && <span className="text-[9px] text-gray-400 font-normal italic ml-1"> [{course.status}]</span>}
-                      {course.certificate_url && (
-                        <a href={course.certificate_url} target="_blank" rel="noreferrer" className="text-[9px] text-blue-500 hover:underline font-normal ml-2">
-                          (Link)
-                        </a>
-                      )}
-                    </h4>
-                    {course.description && (
-                      <p className="text-[10px] text-gray-600 leading-relaxed border-l border-gray-150 pl-2 mt-0.5">
-                        {course.description}
-                      </p>
-                    )}
-                  </div>
                 ))}
               </div>
             </section>

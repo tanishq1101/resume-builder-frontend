@@ -57,8 +57,19 @@ const App = () => {
     }
   }
 
+  const wakeUpBackend = async () => {
+    try {
+      // Send a background request to the backend root to wake up the Render server
+      await api.get('/');
+      console.log("Backend server pinged and awake!");
+    } catch (error) {
+      console.log("Backend ping finished:", error.message);
+    }
+  }
+
   useEffect(() => {
     getUserData()
+    wakeUpBackend()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
