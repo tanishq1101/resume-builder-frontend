@@ -68,9 +68,23 @@ const AiToolsForm = ({ resumeData, setResumeData, token, resumeId }) => {
     if (!tailoredPreview) return
 
     setResumeData(prev => {
-      // Map experience from preview back into our experiences matching indices/companies
+      // Map experience from preview back into our experiences matching companies, positions, or indices
       const updatedExperience = prev.experience.map((exp, index) => {
-        const tailoredExp = tailoredPreview.experience?.[index]
+        // Try to find matching experience in preview by company name or position name
+        let tailoredExp = tailoredPreview.experience?.find(te => 
+          te.company && exp.company && te.company.toLowerCase().trim() === exp.company.toLowerCase().trim()
+        );
+        
+        if (!tailoredExp) {
+          tailoredExp = tailoredPreview.experience?.find(te => 
+            te.position && exp.position && te.position.toLowerCase().trim() === exp.position.toLowerCase().trim()
+          );
+        }
+
+        if (!tailoredExp) {
+          tailoredExp = tailoredPreview.experience?.[index];
+        }
+
         if (tailoredExp) {
           return {
             ...exp,
