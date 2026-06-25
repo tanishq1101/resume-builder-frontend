@@ -139,8 +139,6 @@ const changeResumeVisibility = async () => {
 
       const element = document.getElementById("resume-preview");
       if (!element) {
-        document.body.style.cursor = 'default';
-        toast.dismiss("pdf-gen");
         toast.error("Resume content not found");
         return;
       }
@@ -155,15 +153,22 @@ const changeResumeVisibility = async () => {
       };
 
       await html2pdf().set(opt).from(element).save();
-      document.body.style.cursor = 'default';
-      toast.dismiss("pdf-gen");
       toast.success("PDF Downloaded!");
     } catch (error) {
-      document.body.style.cursor = 'default';
       console.error("PDF generation failed:", error);
-      toast.dismiss("pdf-gen");
       toast.error("Failed to generate PDF. Falling back to browser print.");
       window.print();
+    } finally {
+      document.body.style.cursor = 'default';
+      toast.dismiss("pdf-gen");
+      // Remove any lingering html2pdf container or elements
+      const elements = document.querySelectorAll('.html2pdf__container');
+      elements.forEach(el => el.remove());
+      // Restore standard body/html styling if altered
+      document.body.style.opacity = '';
+      document.body.style.visibility = '';
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     }
   }
 

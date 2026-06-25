@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Globe, Github } from "lucide-react";
 
 const MinimalImageTemplate = ({ data, accentColor, atsMode = false }) => {
     const displayAccent = atsMode ? "#111827" : accentColor;
@@ -69,10 +69,28 @@ const MinimalImageTemplate = ({ data, accentColor, atsMode = false }) => {
                                     <span>{data.personal_info.email}</span>
                                 </div>
                             )}
-                            {data.personal_info?.location && (
+                             {data.personal_info?.location && (
                                 <div className="flex items-center gap-2">
                                     <MapPin size={14} style={{ color: displayAccent }} />
                                     <span>{data.personal_info.location}</span>
+                                </div>
+                            )}
+                            {data.personal_info?.linkedin && (
+                                <div className="flex items-center gap-2">
+                                    <Linkedin size={14} style={{ color: displayAccent }} />
+                                    <span className="break-all">{data.personal_info.linkedin}</span>
+                                </div>
+                            )}
+                            {data.personal_info?.github && (
+                                <div className="flex items-center gap-2">
+                                    <Github size={14} style={{ color: displayAccent }} />
+                                    <span className="break-all">{data.personal_info.github}</span>
+                                </div>
+                            )}
+                            {data.personal_info?.website && (
+                                <div className="flex items-center gap-2">
+                                    <Globe size={14} style={{ color: displayAccent }} />
+                                    <span className="break-all">{data.personal_info.website}</span>
                                 </div>
                             )}
                         </div>

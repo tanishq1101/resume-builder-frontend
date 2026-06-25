@@ -99,19 +99,26 @@ const Dashboard = () => {
     event.preventDefault();
 
     if (!resume) {
-      toast.error("Select a PDF file before uploading.");
+      toast.error("Select a resume file before uploading.");
       return;
     }
 
     setIsLoading(true);
 
     try {
-      const resumeText = await pdfToText(resume);
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("file", resume);
 
       const res = await api.post(
-        '/api/ai/upload-resume',
-        { title, resumeText },
-        getHeaders()
+        '/api/ai/upload-resume-file',
+        formData,
+        {
+          headers: {
+            ...getHeaders().headers,
+            "Content-Type": "multipart/form-data",
+          }
+        }
       );
 
       if (typeof res.data === "string" && looksLikeHtml(res.data)) {
@@ -407,7 +414,7 @@ const Dashboard = () => {
                 <input
                   type="file"
                   id="resume-input"
-                  accept=".pdf"
+                  accept=".pdf,.docx,.doc,.txt,.md,.jpg,.jpeg,.png"
                   hidden
                   onChange={(e) => setResume(e.target.files[0])}
                 />

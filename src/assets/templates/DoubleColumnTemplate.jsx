@@ -1,5 +1,5 @@
 import React from "react";
-import { Mail, Phone, MapPin, Linkedin, Globe, Award, BookOpen, Heart, Sparkles } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Globe, Award, BookOpen, Heart, Sparkles, Github } from "lucide-react";
 
 const DoubleColumnTemplate = ({ data, accentColor, atsMode = false }) => {
   const displayAccent = atsMode ? "#111827" : accentColor;
@@ -60,6 +60,12 @@ const DoubleColumnTemplate = ({ data, accentColor, atsMode = false }) => {
             <div className="flex items-center gap-1.5">
               <Linkedin className="size-3.5" />
               <span>{data.personal_info.linkedin}</span>
+            </div>
+          )}
+          {data.personal_info?.github && (
+            <div className="flex items-center gap-1.5">
+              <Github className="size-3.5" />
+              <span>{data.personal_info.github}</span>
             </div>
           )}
           {data.personal_info?.website && (

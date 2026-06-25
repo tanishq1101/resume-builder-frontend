@@ -1,5 +1,5 @@
 import React from "react";
-import { Mail, Phone, MapPin, Linkedin, Globe, Award, BookOpen, Heart, Sparkles, Briefcase, GraduationCap, FolderIcon, User } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Globe, Award, BookOpen, Heart, Sparkles, Briefcase, GraduationCap, FolderIcon, User, Github } from "lucide-react";
 
 const CreativeTemplate = ({ data, accentColor, atsMode = false }) => {
   const displayAccent = atsMode ? "#111827" : accentColor;
@@ -78,6 +78,12 @@ const CreativeTemplate = ({ data, accentColor, atsMode = false }) => {
               <div className="flex items-center gap-2">
                 <Linkedin className="size-4 shrink-0" style={{ color: displayAccent }} />
                 <span className="truncate">{data.personal_info.linkedin}</span>
+              </div>
+            )}
+            {data.personal_info?.github && (
+              <div className="flex items-center gap-2">
+                <Github className="size-4 shrink-0" style={{ color: displayAccent }} />
+                <span className="truncate">{data.personal_info.github}</span>
               </div>
             )}
             {data.personal_info?.website && (

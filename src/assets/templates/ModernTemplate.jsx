@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Linkedin, Globe } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Globe, Github } from "lucide-react";
 
 const ModernTemplate = ({ data, accentColor, atsMode = false }) => {
 	const displayAccent = atsMode ? "#111827" : accentColor;
@@ -52,6 +52,12 @@ const ModernTemplate = ({ data, accentColor, atsMode = false }) => {
 						<a target="_blank" href={data.personal_info?.linkedin} className="flex items-center gap-2">
 							<Linkedin className="size-4" />
 							<span className="break-all text-xs">{data.personal_info.linkedin.split("https://www.")[1] ? data.personal_info.linkedin.split("https://www.")[1] : data.personal_info.linkedin}</span>
+						</a>
+					)}
+					{data.personal_info?.github && (
+						<a target="_blank" href={data.personal_info?.github} className="flex items-center gap-2">
+							<Github className="size-4" />
+							<span className="break-all text-xs">{data.personal_info.github.replace(/https?:\/\/(www\.)?/, "")}</span>
 						</a>
 					)}
 					{data.personal_info?.website && (

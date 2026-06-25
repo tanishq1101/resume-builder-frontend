@@ -4,11 +4,10 @@ import Home from './pages/Home.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import ResumeBuilder from './pages/ResumeBuilder.jsx'
 import Preview from './pages/Preview.jsx'
-import { login } from './app/features/authSlice.js'
+import { login, logout, setLoading } from './app/features/authSlice.js'
 import Layout from './pages/Layout.jsx'
 import { useDispatch } from 'react-redux'
 import api from './configs/api.js'
-import { setLoading } from './app/features/authSlice.js'
 
 import { Toaster } from 'react-hot-toast'
 
@@ -47,13 +46,12 @@ const App = () => {
         if (data.user) {
           dispatch(login({ token, user: data.user }))
         }
-        dispatch(setLoading(false))
-      } else {
-        dispatch(setLoading(false))
       }
     } catch (error) {
-      dispatch(setLoading(false))
-      console.log(error.message)
+      console.log("Session verification failed:", error.message)
+      if (error?.response?.status === 401 || error?.response?.status === 403) {
+        dispatch(logout())
+      }
     }
   }
 

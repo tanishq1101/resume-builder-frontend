@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Linkedin, Globe } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Globe, Github } from "lucide-react";
 
 const ClassicTemplate = ({ data, accentColor, atsMode = false }) => {
     const displayAccent = atsMode ? "#111827" : accentColor;
@@ -50,6 +50,12 @@ const ClassicTemplate = ({ data, accentColor, atsMode = false }) => {
                         <div className="flex items-center gap-1">
                             <Linkedin className="size-4" />
                             <span className="break-all">{data.personal_info.linkedin}</span>
+                        </div>
+                    )}
+                    {data.personal_info?.github && (
+                        <div className="flex items-center gap-1">
+                            <Github className="size-4" />
+                            <span className="break-all">{data.personal_info.github}</span>
                         </div>
                     )}
                     {data.personal_info?.website && (
