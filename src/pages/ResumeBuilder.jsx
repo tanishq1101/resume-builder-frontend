@@ -43,8 +43,7 @@ const ResumeBuilder = () => {
 
   const loadExistingResumeData = async () => { 
     try {
-      const {data} = await api.get(`/api/resumes/get/${resumeId}`, {headers: {
-        Authorization: `Bearer ${token}` }})
+      const {data} = await api.get(`/api/resumes/get/${resumeId}`)
         if(data.resume) {
           setResumeData(data.resume)
           document.title = data.resume.title
@@ -86,12 +85,7 @@ const changeResumeVisibility = async () => {
     formData.append("resumeId", resumeId);
     formData.append("resumeData", JSON.stringify({ public: !resumeData.public }));
 
-    const { data } = await api.put("/api/resumes/update", formData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const { data } = await api.put("/api/resumes/update", formData);
 
     setResumeData(prev => ({ ...prev, public: !prev.public }));
     toast.success(data.message);
@@ -175,11 +169,19 @@ const changeResumeVisibility = async () => {
  const saveResume = async () => { 
   try {
     let updatedResumeData = structuredClone(resumeData);
+    const imageFile = resumeData.personal_info?.image;
+    const isImageFile = typeof File !== "undefined" && imageFile instanceof File;
 
-    // remove image if object
-    if (typeof resumeData.personal_info.image === "object") {
+    if (isImageFile && updatedResumeData.personal_info) {
       delete updatedResumeData.personal_info.image;
     }
+
+    delete updatedResumeData._id;
+    delete updatedResumeData.userId;
+    delete updatedResumeData.__v;
+    delete updatedResumeData.createdAt;
+    delete updatedResumeData.updatedAt;
+    delete updatedResumeData.views;
 
     const formData = new FormData();
     formData.append("resumeId", resumeId);
@@ -189,22 +191,18 @@ const changeResumeVisibility = async () => {
       formData.append("removeBackground", "yes");
     }
 
-    if (typeof resumeData.personal_info.image === "object") {
-      formData.append("image", resumeData.personal_info.image);
+    if (isImageFile) {
+      formData.append("image", imageFile);
     }
 
-    const { data } = await api.put("/api/resumes/update", formData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const { data } = await api.put("/api/resumes/update", formData);
 
     setResumeData(data.resume);
-    toast.success(data.message);
+    return data.message || "Resume saved successfully";
 
   } catch (error) {
     console.error("Error saving resume:", error);
+    throw error;
   }
 };
 
@@ -272,8 +270,7 @@ const changeResumeVisibility = async () => {
             )}
             {activeSection.id === 'summary' && (
               <ProfessionalSummaryForm data={resumeData.professional_summary}
-              onChange={(data)=>setResumeData(prev => ({...prev, professional_summary:data}))}
-              setResumeData={setResumeData}/>
+              onChange={(data)=>setResumeData(prev => ({...prev, professional_summary:data}))}/>
                )}
 
               {activeSection.id === 'experience' && (
@@ -321,7 +318,11 @@ const changeResumeVisibility = async () => {
 
           </div>
 
-            <button onClick={() =>  toast.promise(saveResume(), { loading: 'Saving...' })}  
+            <button onClick={() => toast.promise(saveResume(), {
+              loading: 'Saving...',
+              success: (message) => message,
+              error: (error) => error?.response?.data?.message || error.message || 'Failed to save resume',
+            })}
             className='bg-linear-to-br from-green-100 to-green-200 ring-green-300 text-green-600
             ring hover:ring-green-400 transition-all rounded-md px-6 py-2 mt-6 text-sm'>
               Save Changes

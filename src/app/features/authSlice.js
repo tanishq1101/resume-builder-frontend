@@ -16,7 +16,7 @@ const authSlice = createSlice ({
     initialState : {
         token: initialToken || null,
         user: initialUser || null,
-        loading: false
+        loading: Boolean(initialToken) && !initialUser
     },
     reducers : {
         login(state, action) { 

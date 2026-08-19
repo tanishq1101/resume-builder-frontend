@@ -1,23 +1,9 @@
 import { Mail, Phone, MapPin, Linkedin, Globe, Github } from "lucide-react";
+import { formatDate } from "./formatDate";
 
 const ClassicTemplate = ({ data, accentColor, atsMode = false }) => {
     const displayAccent = atsMode ? "#111827" : accentColor;
     const borderAccent = atsMode ? "#e5e7eb" : accentColor;
-    const formatDate = (dateStr) => {
-        if (!dateStr) return "";
-        if (dateStr.toLowerCase() === "present" || !dateStr.includes("-")) {
-            return dateStr;
-        }
-        const [year, month] = dateStr.split("-");
-        const parsedDate = new Date(year, month - 1);
-        if (isNaN(parsedDate.getTime())) {
-            return dateStr;
-        }
-        return parsedDate.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short"
-        });
-    };
 
     return (
         <div className="max-w-4xl mx-auto p-8 bg-white text-gray-800 leading-relaxed">
@@ -221,7 +207,7 @@ const ClassicTemplate = ({ data, accentColor, atsMode = false }) => {
             {/* Interests */}
             {data.interests && data.interests.length > 0 && (
                 <section className="mb-6">
-                    <h2 className="text-xl font-semibold mb-4" style={{ color: accentColor }}>
+                    <h2 className="text-xl font-semibold mb-4" style={{ color: displayAccent }}>
                         INTERESTS & HOBBIES
                     </h2>
                     <div className="flex gap-4 flex-wrap">

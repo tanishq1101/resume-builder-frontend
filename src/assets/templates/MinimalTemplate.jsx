@@ -1,21 +1,7 @@
+import { formatDate } from "./formatDate";
 
 const MinimalTemplate = ({ data, accentColor, atsMode = false }) => {
     const displayAccent = atsMode ? "#111827" : accentColor;
-    const formatDate = (dateStr) => {
-        if (!dateStr) return "";
-        if (dateStr.toLowerCase() === "present" || !dateStr.includes("-")) {
-            return dateStr;
-        }
-        const [year, month] = dateStr.split("-");
-        const parsedDate = new Date(year, month - 1);
-        if (isNaN(parsedDate.getTime())) {
-            return dateStr;
-        }
-        return parsedDate.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short"
-        });
-    };
 
     return (
         <div className="max-w-4xl mx-auto p-8 bg-white text-gray-900 font-light">

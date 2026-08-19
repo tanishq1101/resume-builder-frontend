@@ -11,15 +11,13 @@ import {
 } from "lucide-react";
 
 import React, { useEffect, useState } from "react";
-import { dummyResumeData } from "/src/assets/assets.js";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import api from "../configs/api";
 import toast from "react-hot-toast";
-import pdfToText from "react-pdftotext";
 
 const Dashboard = () => {
-  const { token } = useSelector((state) => state.auth);
+  const { token, user } = useSelector((state) => state.auth);
   const storedToken = token || localStorage.getItem("token");
 
   const colors = ["#9333ea", "#d97706", "#dc2626", "#0284c7", "#16a34a"];
@@ -43,8 +41,6 @@ const Dashboard = () => {
   });
 
   const loadAllResumes = async () => {
-    setAllResumes(Array.isArray(dummyResumeData) ? dummyResumeData : []);
-
     try {
       const res = await api.get('/api/users/resumes', getHeaders());
 
@@ -113,12 +109,7 @@ const Dashboard = () => {
       const res = await api.post(
         '/api/ai/upload-resume-file',
         formData,
-        {
-          headers: {
-            ...getHeaders().headers,
-            "Content-Type": "multipart/form-data",
-          }
-        }
+        getHeaders()
       );
 
       if (typeof res.data === "string" && looksLikeHtml(res.data)) {
@@ -207,7 +198,7 @@ const Dashboard = () => {
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         <p className="text-2xl font-medium mb-6 bg-linear-to-r from-slate-600 to-slate-700 dark:from-gray-300 dark:to-gray-400 bg-clip-text text-transparent sm:hidden">
-          Welcome, Alexandra Acosta
+          Welcome, {user?.name || "there"}
         </p>
 
         <div className="flex gap-4">

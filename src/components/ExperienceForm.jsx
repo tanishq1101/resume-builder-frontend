@@ -4,7 +4,7 @@ import toast from 'react-hot-toast'
 import { useSelector } from 'react-redux'
 import api from '../configs/api'
 
-const ExperienceForm = ({ data, onChange }) => {
+const ExperienceForm = ({ data = [], onChange }) => {
 
     const { token } = useSelector(state => state.auth)
     const [generatingIndex, setGeneratingIndex] = React.useState(-1)
@@ -113,7 +113,7 @@ const ExperienceForm = ({ data, onChange }) => {
                             </div>
 
                             <label className='flex items-center gap-2'>
-                                <input type="checkbox" checked={experience.current}
+                                <input type="checkbox" checked={!!experience.current}
                                     onChange={(e) => updateExperience(index, "current", e.target.checked)}
                                     className='rounded border-gray-300 text-blue-600 focus:ring-blue-500' />
                                 <span className='text-sm text-gray-700'>Currently working here</span>

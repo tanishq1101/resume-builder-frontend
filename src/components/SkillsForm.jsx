@@ -2,7 +2,7 @@ import { Plus, Sparkles, X, Loader2 } from 'lucide-react'
 import React, { useState, useEffect } from 'react'
 import api from '../configs/api'
 
-const SkillsForm = ({ data, onChange, profession, token }) => {
+const SkillsForm = ({ data = [], onChange, profession, token }) => {
 
     const [newSkill, setNewSkill] = useState("")
     const [suggestions, setSuggestions] = useState([])
@@ -28,6 +28,7 @@ const SkillsForm = ({ data, onChange, profession, token }) => {
             }
         }
         fetchSuggestions()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [profession, token])
 
     const addSkill = () => {

@@ -76,7 +76,7 @@ const Login = () => {
       return;
     }
 
-    const oauthUrl = `${API_BASE}/api/auth/google`;
+    const oauthUrl = `${API_BASE}/api/auth/google?origin=${encodeURIComponent(window.location.origin)}`;
 
     const width = 600, height = 700;
     const left = window.screenX + (window.outerWidth - width) / 2;
@@ -185,20 +185,23 @@ const Login = () => {
           <div className="flex items-center mt-6 border dark:border-gray-600 h-12 rounded-full pl-6 gap-2">
             <User2Icon size={16} className="text-gray-500 dark:text-gray-400" />
             <input type="text" name="name" placeholder="Name"
-              value={formData.name} onChange={handleChange} required />
+              value={formData.name} onChange={handleChange} required
+              className="flex-1 outline-none bg-transparent text-sm text-gray-900 dark:text-gray-100 border-none focus:ring-0" />
           </div>
         )}
 
         <div className="flex items-center mt-4 border dark:border-gray-600 h-12 rounded-full pl-6 gap-2">
           <Mail size={12} className="text-gray-500 dark:text-gray-400" />
           <input type="email" name="email" placeholder="Email"
-            value={formData.email} onChange={handleChange} required />
+            value={formData.email} onChange={handleChange} required
+            className="flex-1 outline-none bg-transparent text-sm text-gray-900 dark:text-gray-100 border-none focus:ring-0" />
         </div>
 
         <div className="flex items-center mt-4 border dark:border-gray-600 h-12 rounded-full pl-6 gap-2">
           <Lock size={12} className="text-gray-500 dark:text-gray-400" />
           <input type="password" name="password" placeholder="Password"
-            value={formData.password} onChange={handleChange} required />
+            value={formData.password} onChange={handleChange} required
+            className="flex-1 outline-none bg-transparent text-sm text-gray-900 dark:text-gray-100 border-none focus:ring-0" />
         </div>
 
         <div className="mt-4 text-left text-green-500">

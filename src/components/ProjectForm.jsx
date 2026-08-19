@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import api from '../configs/api';
 
-const ProjectForm = ({data, onChange}) => {
+const ProjectForm = ({data = [], onChange}) => {
      const { token } = useSelector(state => state.auth);
      const [generatingIndex, setGeneratingIndex] = React.useState(-1);
 

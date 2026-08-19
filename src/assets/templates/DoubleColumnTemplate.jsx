@@ -1,24 +1,10 @@
 import React from "react";
 import { Mail, Phone, MapPin, Linkedin, Globe, Award, BookOpen, Heart, Sparkles, Github } from "lucide-react";
+import { formatDate } from "./formatDate";
 
 const DoubleColumnTemplate = ({ data, accentColor, atsMode = false }) => {
   const displayAccent = atsMode ? "#111827" : accentColor;
   const borderAccent = atsMode ? "#e5e7eb" : accentColor;
-  const formatDate = (dateStr) => {
-    if (!dateStr) return "";
-    if (dateStr.toLowerCase() === "present" || !dateStr.includes("-")) {
-      return dateStr;
-    }
-    const [year, month] = dateStr.split("-");
-    const parsedDate = new Date(year, month - 1);
-    if (isNaN(parsedDate.getTime())) {
-      return dateStr;
-    }
-    return parsedDate.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short"
-    });
-  };
 
   return (
     <div className="max-w-4xl mx-auto bg-white text-gray-800 leading-relaxed shadow-sm">

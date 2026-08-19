@@ -36,22 +36,25 @@ const App = () => {
   const getUserData = async () => {
     const token = localStorage.getItem('token')
 
+    if (!token) {
+      dispatch(setLoading(false))
+      return
+    }
+
     try {
-      if (token) {
-        const { data } = await api.get('/api/users/data', {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
-        if (data.user) {
-          dispatch(login({ token, user: data.user }))
-        }
+      const { data } = await api.get('/api/users/data')
+      if (data.user) {
+        dispatch(login({ token, user: data.user }))
+      } else {
+        dispatch(logout())
       }
     } catch (error) {
       console.log("Session verification failed:", error.message)
       if (error?.response?.status === 401 || error?.response?.status === 403) {
         dispatch(logout())
       }
+    } finally {
+      dispatch(setLoading(false))
     }
   }
 
