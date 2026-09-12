@@ -1,12 +1,18 @@
-
 import { Mail, User2Icon, Lock } from 'lucide-react'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import api, { API_BASE } from '../configs/api.js'
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  updateProfile,
+  signInWithPopup,
+  sendPasswordResetEmail,
+} from 'firebase/auth'
+import { auth, googleProvider } from '../configs/firebase.js'
+import api from '../configs/api.js'
 import toast from 'react-hot-toast'
 import { login } from '../app/features/authSlice.js'
-
 
 const GoogleIcon = ({ className }) => (
   <svg className={className} viewBox="0 0 48 48" width="20" height="20">
@@ -17,12 +23,20 @@ const GoogleIcon = ({ className }) => (
   </svg>
 )
 
+const syncAndEnter = async (dispatch, navigate, successMessage) => {
+  const { data } = await api.post('/api/users/sync')
+  dispatch(login({ user: data.user }))
+  toast.success(successMessage)
+  navigate('/app')
+}
+
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const query = new URLSearchParams(window.location.search);
   const urlState = query.get('state');
   const [state, setState] = React.useState(urlState || "login");
+  const [submitting, setSubmitting] = React.useState(false);
 
   const [formData, setFormData] = React.useState({
     name: '',
@@ -30,21 +44,24 @@ const Login = () => {
     password: ''
   });
 
-  // ========== FORM HANDLERS ==========
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (submitting) return
+    setSubmitting(true)
     try {
-      const endpoint = state === "login" ? "login" : "register"
-      const { data } = await api.post(`/api/users/${endpoint}`, formData)
-      // expecting data to include token and user data
-      const payload = data.token ? { token: data.token, user: data.user || data } : data;
-      dispatch(login(payload))
-      localStorage.setItem('token', payload.token)
-      toast.success(data.message || 'Signed in')
-      // redirect to dashboard/app
-      navigate('/app')
+      if (state === "login") {
+        await signInWithEmailAndPassword(auth, formData.email, formData.password)
+      } else {
+        const cred = await createUserWithEmailAndPassword(auth, formData.email, formData.password)
+        if (formData.name) {
+          await updateProfile(cred.user, { displayName: formData.name })
+        }
+      }
+      await syncAndEnter(dispatch, navigate, state === "login" ? "Signed in" : "Account created")
     } catch (error) {
-      toast.error(error?.response?.data?.message || error.message)
+      toast.error(firebaseErrorMessage(error))
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -59,121 +76,26 @@ const Login = () => {
       return
     }
     try {
-      const { data } = await api.post('/api/users/forgot-password', { email: formData.email })
-      toast.success(data.message || 'Password reset email sent.')
+      await sendPasswordResetEmail(auth, formData.email, {
+        url: `${window.location.origin}/reset-password`,
+        handleCodeInApp: true,
+      })
+      toast.success('If that email exists, a reset link has been sent.')
     } catch (error) {
-      toast.error(error?.response?.data?.message || 'Failed to send reset email.')
+      toast.error(firebaseErrorMessage(error))
     }
   }
 
-  // ========== GOOGLE SIGN-IN ==========
-
-  const FRONTEND_ORIGIN = import.meta.env.VITE_FRONTEND_URL || window.location.origin;
-
-  const handleGoogleSignIn = () => {
-    if (!API_BASE) {
-      toast.error("VITE_API_BASE missing in .env");
-      return;
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider)
+      await syncAndEnter(dispatch, navigate, "Signed in with Google")
+    } catch (error) {
+      if (error?.code === 'auth/popup-closed-by-user') return
+      toast.error(firebaseErrorMessage(error))
     }
+  }
 
-    const oauthUrl = `${API_BASE}/api/auth/google?origin=${encodeURIComponent(window.location.origin)}`;
-
-    const width = 600, height = 700;
-    const left = window.screenX + (window.outerWidth - width) / 2;
-    const top = window.screenY + (window.outerHeight - height) / 2.5;
-
-    const popup = window.open(
-      oauthUrl,
-      "googleSignIn",
-      `width=${width},height=${height},left=${left},top=${top}`
-    );
-
-    if (!popup) {
-      toast.error("Popup blocked");
-      return;
-    }
-
-
-    const allowedOrigins = new Set([
-      window.location.origin,
-      FRONTEND_ORIGIN,
-      API_BASE ? new URL(API_BASE).origin : null
-    ].filter(Boolean));
-
-    const messageListener = async (e) => {
-      console.log('[Google] message received', e.origin, e.data);
-
-      // Accept if origin is allowed AND message source is the popup (extra safety)
-      if (!allowedOrigins.has(e.origin)) {
-        console.warn("Ignored message from", e.origin);
-        return;
-      }
-      // extra check to ensure event came from our opened popup window
-      if (e.source && popup && e.source !== popup) {
-        console.warn("Ignored message not from our popup");
-        return;
-      }
-
-      const token =
-        typeof e.data === "object" && e.data !== null
-          ? e.data.token || e.data.accessToken
-          : null;
-      if (!token) {
-        console.warn('[Google] no token found in message data', e.data);
-        return;
-      }
-
-      // success - cleanup
-      window.removeEventListener("message", messageListener);
-      // eslint-disable-next-line no-unused-vars
-      try { popup.close(); } catch (err) { /* ignore */ }
-
-      // save token, fetch profile and dispatch
-      localStorage.setItem("token", token);
-
-      try {
-        const { data } = await api.get("/api/users/data", {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-
-        const payload = { token, user: data.user || data };
-        dispatch(login(payload));
-        toast.success("Signed in with Google");
-        navigate('/app'); // redirect to dashboard/app
-
-      } catch (err) {
-        console.error('[Google] failed to fetch profile', err);
-        toast.error("Google signed in, but profile fetch failed. Please refresh.");
-      }
-    };
-
-    window.addEventListener("message", messageListener, false);
-
-    // timeout and popup-close watcher (safe checks)
-    const timeout = setTimeout(() => {
-      window.removeEventListener("message", messageListener);
-      // eslint-disable-next-line no-unused-vars
-      try { if (popup && !popup.closed) popup.close(); } catch (e) { /* ignore */ }
-      toast.error("Google sign-in timed out. Please try again.");
-    }, 2 * 60 * 1000);
-
-    const closeCheck = setInterval(() => {
-      try {
-
-        if (!popup || popup.closed) {
-          clearInterval(closeCheck);
-          clearTimeout(timeout);
-          window.removeEventListener("message", messageListener);
-        }
-        // eslint-disable-next-line no-unused-vars
-      } catch (err) {
-
-        clearInterval(closeCheck);
-      }
-    }, 500);
-  };
-
-  // =================== RETURN UI ===================
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 px-4 transition-colors duration-300">
       <form onSubmit={handleSubmit} className="sm:w-87.5 w-full text-center border border-gray-300/60 dark:border-gray-700 rounded-2xl px-8 bg-white dark:bg-gray-900 transition-colors duration-300">
@@ -201,6 +123,7 @@ const Login = () => {
           <Lock size={12} className="text-gray-500 dark:text-gray-400" />
           <input type="password" name="password" placeholder="Password"
             value={formData.password} onChange={handleChange} required
+            minLength={6}
             className="flex-1 outline-none bg-transparent text-sm text-gray-900 dark:text-gray-100 border-none focus:ring-0" />
         </div>
 
@@ -210,7 +133,7 @@ const Login = () => {
           </button>
         </div>
 
-        <button type="submit" className="mt-2 w-full h-11 rounded-full text-white bg-green-500 hover:opacity-90 transition-opacity">
+        <button type="submit" disabled={submitting} className="mt-2 w-full h-11 rounded-full text-white bg-green-500 hover:opacity-90 transition-opacity disabled:opacity-60">
           {state === "login" ? "Login" : "Sign up"}
         </button>
 
@@ -240,6 +163,20 @@ const Login = () => {
       </form>
     </div>
   )
+}
+
+const FIREBASE_ERROR_MESSAGES = {
+  'auth/invalid-credential': 'Invalid email or password.',
+  'auth/user-not-found': 'Invalid email or password.',
+  'auth/wrong-password': 'Invalid email or password.',
+  'auth/email-already-in-use': 'An account with this email already exists.',
+  'auth/weak-password': 'Password should be at least 6 characters.',
+  'auth/invalid-email': 'Please enter a valid email address.',
+  'auth/too-many-requests': 'Too many attempts. Please try again later.',
+}
+
+function firebaseErrorMessage(error) {
+  return FIREBASE_ERROR_MESSAGES[error?.code] || error?.message || 'Something went wrong.'
 }
 
 export default Login

@@ -1,11 +1,9 @@
 import React from 'react';
 import { Plus, Trash2, Heart, Sparkles, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { useSelector } from 'react-redux';
 import api from '../configs/api';
 
 const InterestsForm = ({ data = [], onChange }) => {
-  const { token } = useSelector(state => state.auth);
   const [generatingIndex, setGeneratingIndex] = React.useState(-1);
 
   const addInterest = () => {
@@ -41,8 +39,7 @@ const InterestsForm = ({ data = [], onChange }) => {
     try {
       const { data: resData } = await api.post(
         '/api/ai/enhance',
-        { fieldType: "interest", context, userContent },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { fieldType: "interest", context, userContent }
       );
 
       updateInterest(index, "description", resData.enhancedContent);

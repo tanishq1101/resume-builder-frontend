@@ -1,11 +1,9 @@
 import React from 'react';
 import { Plus, Trash2, Award, Sparkles, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { useSelector } from 'react-redux';
 import api from '../configs/api';
 
 const AchievementsForm = ({ data = [], onChange }) => {
-  const { token } = useSelector(state => state.auth);
   const [generatingIndex, setGeneratingIndex] = React.useState(-1);
 
   const addAchievement = () => {
@@ -43,8 +41,7 @@ const AchievementsForm = ({ data = [], onChange }) => {
     try {
       const { data: resData } = await api.post(
         '/api/ai/enhance',
-        { fieldType: "achievement", context, userContent },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { fieldType: "achievement", context, userContent }
       );
 
       updateAchievement(index, "description", resData.enhancedContent);

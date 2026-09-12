@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
-import { useParams, useNavigate, Link } from 'react-router-dom'
-import { Lock, Eye, EyeOff, CheckCircle } from 'lucide-react'
-import api from '../configs/api'
+import React, { useEffect, useState } from 'react'
+import { useSearchParams, useNavigate, Link } from 'react-router-dom'
+import { Lock, Eye, EyeOff, CheckCircle, XCircle } from 'lucide-react'
+import { verifyPasswordResetCode, confirmPasswordReset } from 'firebase/auth'
+import { auth } from '../configs/firebase.js'
 import toast from 'react-hot-toast'
 
 const ResetPassword = () => {
-    const { token } = useParams()
+    const [searchParams] = useSearchParams()
+    const oobCode = searchParams.get('oobCode')
     const navigate = useNavigate()
 
     const [password, setPassword] = useState('')
@@ -13,6 +15,19 @@ const ResetPassword = () => {
     const [showPassword, setShowPassword] = useState(false)
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState(false)
+    const [checking, setChecking] = useState(true)
+    const [invalidLink, setInvalidLink] = useState(false)
+
+    useEffect(() => {
+        if (!oobCode) {
+            setInvalidLink(true)
+            setChecking(false)
+            return
+        }
+        verifyPasswordResetCode(auth, oobCode)
+            .catch(() => setInvalidLink(true))
+            .finally(() => setChecking(false))
+    }, [oobCode])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -29,15 +44,40 @@ const ResetPassword = () => {
 
         setLoading(true)
         try {
-            const { data } = await api.post(`/api/users/reset-password/${token}`, { password })
-            toast.success(data.message || 'Password reset successful!')
+            await confirmPasswordReset(auth, oobCode, password)
+            toast.success('Password reset successful!')
             setSuccess(true)
             setTimeout(() => navigate('/login'), 3000)
         } catch (error) {
-            toast.error(error?.response?.data?.message || 'Failed to reset password. The link may have expired.')
+            toast.error(error?.message || 'Failed to reset password. The link may have expired.')
         } finally {
             setLoading(false)
         }
+    }
+
+    if (checking) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 transition-colors">
+                <div className="w-10 h-10 border-4 border-green-500 border-t-transparent rounded-full animate-spin" />
+            </div>
+        )
+    }
+
+    if (invalidLink) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 px-4 transition-colors">
+                <div className="text-center max-w-sm">
+                    <XCircle className="w-16 h-16 text-red-500 mx-auto" />
+                    <h1 className="mt-5 text-2xl font-bold text-gray-900 dark:text-white">Invalid or expired link</h1>
+                    <p className="mt-3 text-gray-500 dark:text-gray-400 text-sm">
+                        Please request a new password reset link from the login page.
+                    </p>
+                    <Link to="/login" className="mt-6 inline-block text-green-500 hover:underline text-sm font-medium">
+                        Go to Login →
+                    </Link>
+                </div>
+            </div>
+        )
     }
 
     if (success) {

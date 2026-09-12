@@ -2,7 +2,7 @@ import { Plus, Sparkles, X, Loader2 } from 'lucide-react'
 import React, { useState, useEffect } from 'react'
 import api from '../configs/api'
 
-const SkillsForm = ({ data = [], onChange, profession, token }) => {
+const SkillsForm = ({ data = [], onChange, profession }) => {
 
     const [newSkill, setNewSkill] = useState("")
     const [suggestions, setSuggestions] = useState([])
@@ -10,13 +10,12 @@ const SkillsForm = ({ data = [], onChange, profession, token }) => {
 
     useEffect(() => {
         const fetchSuggestions = async () => {
-            if (!profession || !token) return;
+            if (!profession) return;
             try {
                 setLoadingSuggestions(true)
                 const { data: resData } = await api.post(
                     '/api/ai/suggest-skills',
-                    { skills: data, profession },
-                    { headers: { Authorization: `Bearer ${token}` } }
+                    { skills: data, profession }
                 )
                 if (resData.suggestions) {
                     setSuggestions(resData.suggestions)
@@ -29,7 +28,7 @@ const SkillsForm = ({ data = [], onChange, profession, token }) => {
         }
         fetchSuggestions()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [profession, token])
+    }, [profession])
 
     const addSkill = () => {
         const skill = newSkill.trim()

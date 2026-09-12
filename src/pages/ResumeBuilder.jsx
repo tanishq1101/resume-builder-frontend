@@ -15,14 +15,12 @@ import AiToolsForm from '../components/AiToolsForm'
 import AchievementsForm from '../components/AchievementsForm'
 import TrainingForm from '../components/TrainingForm'
 import InterestsForm from '../components/InterestsForm'
-import { useSelector } from 'react-redux'
 import api from '../configs/api'
 import toast from 'react-hot-toast'
 import html2canvas from 'html2canvas-pro'
 const ResumeBuilder = () => {
 
   const {resumeId} = useParams()
-  const {token} = useSelector(state => state.auth)
 
   const [resumeData, setResumeData] = useState( {
     _id: '',
@@ -292,8 +290,7 @@ const changeResumeVisibility = async () => {
                {activeSection.id === 'skills' && (
               <SkillsForm data={resumeData.skills}
               onChange={(data)=>setResumeData(prev => ({...prev, skills:data}))}
-              profession={resumeData.personal_info?.profession}
-              token={token}/>
+              profession={resumeData.personal_info?.profession}/>
                )}
 
                {activeSection.id === 'achievements' && (
@@ -313,7 +310,7 @@ const changeResumeVisibility = async () => {
 
                {activeSection.id === 'ai-tools' && (
               <AiToolsForm resumeData={resumeData} setResumeData={setResumeData}
-              token={token} resumeId={resumeId}/>
+              resumeId={resumeId}/>
                )}
 
           </div>

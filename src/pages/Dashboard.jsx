@@ -17,8 +17,7 @@ import api from "../configs/api";
 import toast from "react-hot-toast";
 
 const Dashboard = () => {
-  const { token, user } = useSelector((state) => state.auth);
-  const storedToken = token || localStorage.getItem("token");
+  const { user } = useSelector((state) => state.auth);
 
   const colors = ["#9333ea", "#d97706", "#dc2626", "#0284c7", "#16a34a"];
 
@@ -36,13 +35,9 @@ const Dashboard = () => {
     typeof text === "string" &&
     (text.trim().startsWith("<!doctype") || text.trim().startsWith("<html"));
 
-  const getHeaders = () => ({
-    headers: { Authorization: `Bearer ${storedToken}` }
-  });
-
   const loadAllResumes = async () => {
     try {
-      const res = await api.get('/api/users/resumes', getHeaders());
+      const res = await api.get('/api/users/resumes');
 
       if (typeof res.data === "string" && looksLikeHtml(res.data)) {
         toast.error("Backend returned HTML. Fix API_BASE.");
@@ -69,8 +64,7 @@ const Dashboard = () => {
     try {
       const res = await api.post(
         '/api/resumes/create',
-        { title },
-        getHeaders()
+        { title }
       );
 
       if (typeof res.data === "string" && looksLikeHtml(res.data)) {
@@ -108,8 +102,7 @@ const Dashboard = () => {
 
       const res = await api.post(
         '/api/ai/upload-resume-file',
-        formData,
-        getHeaders()
+        formData
       );
 
       if (typeof res.data === "string" && looksLikeHtml(res.data)) {
@@ -138,8 +131,7 @@ const Dashboard = () => {
     try {
       const res = await api.put(
         '/api/resumes/update',
-        { resumeId: editResumeId, resumeData: { title } },
-        getHeaders()
+        { resumeId: editResumeId, resumeData: { title } }
       );
 
       if (typeof res.data === "string" && looksLikeHtml(res.data)) {
@@ -167,8 +159,7 @@ const Dashboard = () => {
       if (!confirmDelete) return;
 
       const res = await api.delete(
-        `/api/resumes/delete/${resumeId}`,
-        getHeaders()
+        `/api/resumes/delete/${resumeId}`
       );
 
       if (typeof res.data === "string" && looksLikeHtml(res.data)) {

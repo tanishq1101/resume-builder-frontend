@@ -8,6 +8,8 @@ import { login, logout, setLoading } from './app/features/authSlice.js'
 import Layout from './pages/Layout.jsx'
 import { useDispatch } from 'react-redux'
 import api from './configs/api.js'
+import { auth } from './configs/firebase.js'
+import { onAuthStateChanged } from 'firebase/auth'
 
 import { Toaster } from 'react-hot-toast'
 
@@ -26,37 +28,11 @@ import ContactPage from './pages/footer/ContactPage.jsx'
 
 // Auth pages
 import Login from './pages/Login.jsx'
-import OAuthCallback from './pages/OAuthCallback.jsx'
 import ResetPassword from './pages/ResetPassword.jsx'
 
 const App = () => {
 
   const dispatch = useDispatch()
-
-  const getUserData = async () => {
-    const token = localStorage.getItem('token')
-
-    if (!token) {
-      dispatch(setLoading(false))
-      return
-    }
-
-    try {
-      const { data } = await api.get('/api/users/data')
-      if (data.user) {
-        dispatch(login({ token, user: data.user }))
-      } else {
-        dispatch(logout())
-      }
-    } catch (error) {
-      console.log("Session verification failed:", error.message)
-      if (error?.response?.status === 401 || error?.response?.status === 403) {
-        dispatch(logout())
-      }
-    } finally {
-      dispatch(setLoading(false))
-    }
-  }
 
   const wakeUpBackend = async () => {
     try {
@@ -69,8 +45,29 @@ const App = () => {
   }
 
   useEffect(() => {
-    getUserData()
     wakeUpBackend()
+
+    // Firebase restores the signed-in user (if any) on load, then fires this
+    // once with the current user (or null) and again on every sign-in/out.
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (!firebaseUser) {
+        dispatch(logout())
+        dispatch(setLoading(false))
+        return
+      }
+
+      try {
+        const { data } = await api.post('/api/users/sync')
+        dispatch(login({ user: data.user }))
+      } catch (error) {
+        console.log("Failed to sync user profile:", error.message)
+        dispatch(logout())
+      } finally {
+        dispatch(setLoading(false))
+      }
+    })
+
+    return () => unsubscribe()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -101,8 +98,7 @@ const App = () => {
 
         {/* Auth */}
         <Route path='/login' element={<Login />} />
-        <Route path='/oauth-callback' element={<OAuthCallback />} />
-        <Route path='/reset-password/:token' element={<ResetPassword />} />
+        <Route path='/reset-password' element={<ResetPassword />} />
 
         <Route path='app' element={<Layout />}>
           <Route index element={<Dashboard />} />

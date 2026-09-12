@@ -1,11 +1,9 @@
 import { Plus, Trash2, Sparkles, Loader2 } from 'lucide-react';
 import React from 'react';
 import toast from 'react-hot-toast';
-import { useSelector } from 'react-redux';
 import api from '../configs/api';
 
 const ProjectForm = ({data = [], onChange}) => {
-     const { token } = useSelector(state => state.auth);
      const [generatingIndex, setGeneratingIndex] = React.useState(-1);
 
      const addProject = () => {
@@ -42,8 +40,7 @@ const ProjectForm = ({data = [], onChange}) => {
         try {
             const { data: resData } = await api.post(
                 '/api/ai/enhance',
-                { fieldType: "project", context, userContent },
-                { headers: { Authorization: `Bearer ${token}` } }
+                { fieldType: "project", context, userContent }
             );
 
             updateProject(index, "description", resData.enhancedContent);

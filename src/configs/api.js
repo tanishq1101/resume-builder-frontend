@@ -1,5 +1,6 @@
 // src/configs/api.js
 import axios from 'axios';
+import { auth } from './firebase.js';
 
 export const API_BASE = (() => {
   const envBase = import.meta.env.VITE_API_BASE;
@@ -17,10 +18,11 @@ const api = axios.create({
   withCredentials: false       // change to true only if you use cookies
 });
 
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  if (token && !config.headers?.Authorization) {
-    config.headers.Authorization = `Bearer ${token}`;
+api.interceptors.request.use(async (config) => {
+  const currentUser = auth.currentUser;
+  if (currentUser && !config.headers?.Authorization) {
+    const idToken = await currentUser.getIdToken();
+    config.headers.Authorization = `Bearer ${idToken}`;
   }
 
   if (typeof FormData !== 'undefined' && config.data instanceof FormData) {

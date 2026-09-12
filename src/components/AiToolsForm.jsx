@@ -3,7 +3,7 @@ import { Sparkles, ArrowRight, Check, CheckCircle2, AlertTriangle, HelpCircle, C
 import api from '../configs/api'
 import toast from 'react-hot-toast'
 
-const AiToolsForm = ({ resumeData, setResumeData, token, resumeId }) => {
+const AiToolsForm = ({ resumeData, setResumeData, resumeId }) => {
   const [activeSubTab, setActiveSubTab] = useState('ats') // 'ats' | 'tailor' | 'letter'
   const [jobDescription, setJobDescription] = useState('')
   
@@ -25,8 +25,7 @@ const AiToolsForm = ({ resumeData, setResumeData, token, resumeId }) => {
     try {
       const { data } = await api.post(
         '/api/ai/analyze',
-        { resumeId, resumeData },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { resumeId, resumeData }
       )
       setAtsReport(data)
       // Save the score in local resume state so user sees it
@@ -50,8 +49,7 @@ const AiToolsForm = ({ resumeData, setResumeData, token, resumeId }) => {
     try {
       const { data } = await api.post(
         '/api/ai/tailor',
-        { resumeId, resumeData, jobDescription },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { resumeId, resumeData, jobDescription }
       )
       setTailoredPreview(data)
       toast.success('Resume tailored! Review changes below.')
@@ -115,8 +113,7 @@ const AiToolsForm = ({ resumeData, setResumeData, token, resumeId }) => {
     try {
       const { data } = await api.post(
         '/api/ai/cover-letter',
-        { resumeId, resumeData, jobDescription },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { resumeId, resumeData, jobDescription }
       )
       setCoverLetter(data.coverLetter)
       setResumeData(prev => ({ ...prev, cover_letter: data.coverLetter }))

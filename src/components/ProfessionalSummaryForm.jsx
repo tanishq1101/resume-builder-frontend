@@ -1,13 +1,11 @@
 import { Loader2, Sparkles } from 'lucide-react'
 import React from 'react'
-import { useSelector } from 'react-redux'
 import api from '../configs/api'
 import toast from 'react-hot-toast'
 
- 
+
 const ProfessionalSummaryForm = ({data, onChange}) => {
 
-  const {token} = useSelector(state => state.auth)
   const[isGenerating, setIsGenerating] = React.useState(false)
 
   const generateSummary = async () => { 
@@ -18,8 +16,7 @@ const ProfessionalSummaryForm = ({data, onChange}) => {
 
     const response = await api.post(
       '/api/ai/enhance-pro-sum',
-      { userContent },
-      { headers: { Authorization: `Bearer ${token}` } }
+      { userContent }
     );
 
     onChange(response.data.enhancedContent);

@@ -1,11 +1,9 @@
 import React from 'react';
 import { Plus, Trash2, BookOpen, Sparkles, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { useSelector } from 'react-redux';
 import api from '../configs/api';
 
 const TrainingForm = ({ data = [], onChange }) => {
-  const { token } = useSelector(state => state.auth);
   const [generatingIndex, setGeneratingIndex] = React.useState(-1);
 
   const addTraining = () => {
@@ -46,8 +44,7 @@ const TrainingForm = ({ data = [], onChange }) => {
     try {
       const { data: resData } = await api.post(
         '/api/ai/enhance',
-        { fieldType: "course", context, userContent },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { fieldType: "course", context, userContent }
       );
 
       updateTraining(index, "description", resData.enhancedContent);
