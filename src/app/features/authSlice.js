@@ -4,7 +4,7 @@ const authSlice = createSlice({
     name: 'auth',
     initialState: {
         user: null,
-        loading: true, // true until Firebase's onAuthStateChanged fires once
+        loading: true, // true until Clerk reports its initial auth state (isLoaded)
     },
     reducers: {
         login(state, action) {

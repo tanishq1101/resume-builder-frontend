@@ -1,6 +1,5 @@
 // src/configs/api.js
 import axios from 'axios';
-import { auth } from './firebase.js';
 
 export const API_BASE = (() => {
   const envBase = import.meta.env.VITE_API_BASE;
@@ -12,6 +11,13 @@ export const API_BASE = (() => {
   return envBase || window.location.origin;
 })();
 
+// Set by App.jsx from Clerk's useAuth().getToken, so this axios module
+// (outside React) can still attach a fresh session token to every request.
+let getClerkToken = null;
+export const setClerkTokenGetter = (fn) => {
+  getClerkToken = fn;
+};
+
 const api = axios.create({
   baseURL: API_BASE,            // <-- important
   headers: { 'Content-Type': 'application/json' },
@@ -19,10 +25,11 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(async (config) => {
-  const currentUser = auth.currentUser;
-  if (currentUser && !config.headers?.Authorization) {
-    const idToken = await currentUser.getIdToken();
-    config.headers.Authorization = `Bearer ${idToken}`;
+  if (getClerkToken && !config.headers?.Authorization) {
+    const token = await getClerkToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
   }
 
   if (typeof FormData !== 'undefined' && config.data instanceof FormData) {

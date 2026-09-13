@@ -3,20 +3,23 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { logout } from '../app/features/authSlice'
 import { useTheme } from '../app/ThemeContext'
+import { useClerk } from '@clerk/clerk-react'
 import { Sun, Moon } from 'lucide-react'
 
 const Navbar = () => {
 
     const { user } = useSelector(state => state.auth)
     const { theme, toggleTheme } = useTheme()
+    const { signOut } = useClerk()
 
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
 
-    const logoutUser = () => {
-        navigate('/')
+    const logoutUser = async () => {
+        await signOut()
         dispatch(logout())
+        navigate('/')
     }
 
     return (

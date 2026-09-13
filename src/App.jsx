@@ -7,9 +7,8 @@ import Preview from './pages/Preview.jsx'
 import { login, logout, setLoading } from './app/features/authSlice.js'
 import Layout from './pages/Layout.jsx'
 import { useDispatch } from 'react-redux'
-import api from './configs/api.js'
-import { auth } from './configs/firebase.js'
-import { onAuthStateChanged } from 'firebase/auth'
+import api, { setClerkTokenGetter } from './configs/api.js'
+import { useAuth } from '@clerk/clerk-react'
 
 import { Toaster } from 'react-hot-toast'
 
@@ -28,11 +27,11 @@ import ContactPage from './pages/footer/ContactPage.jsx'
 
 // Auth pages
 import Login from './pages/Login.jsx'
-import ResetPassword from './pages/ResetPassword.jsx'
 
 const App = () => {
 
   const dispatch = useDispatch()
+  const { isLoaded, isSignedIn, getToken } = useAuth()
 
   const wakeUpBackend = async () => {
     try {
@@ -46,16 +45,23 @@ const App = () => {
 
   useEffect(() => {
     wakeUpBackend()
+  }, [])
 
-    // Firebase restores the signed-in user (if any) on load, then fires this
-    // once with the current user (or null) and again on every sign-in/out.
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      if (!firebaseUser) {
-        dispatch(logout())
-        dispatch(setLoading(false))
-        return
-      }
+  useEffect(() => {
+    // Give the axios instance a way to fetch a fresh Clerk session token per request.
+    setClerkTokenGetter(getToken)
+  }, [getToken])
 
+  useEffect(() => {
+    if (!isLoaded) return
+
+    if (!isSignedIn) {
+      dispatch(logout())
+      dispatch(setLoading(false))
+      return
+    }
+
+    (async () => {
       try {
         const { data } = await api.post('/api/users/sync')
         dispatch(login({ user: data.user }))
@@ -65,11 +71,9 @@ const App = () => {
       } finally {
         dispatch(setLoading(false))
       }
-    })
-
-    return () => unsubscribe()
+    })()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [isLoaded, isSignedIn])
 
   return (
     <>
@@ -98,7 +102,6 @@ const App = () => {
 
         {/* Auth */}
         <Route path='/login' element={<Login />} />
-        <Route path='/reset-password' element={<ResetPassword />} />
 
         <Route path='app' element={<Layout />}>
           <Route index element={<Dashboard />} />
