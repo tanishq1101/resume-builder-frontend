@@ -1,0 +1,37 @@
+# Triggers a Vercel production deploy on every push to main.
+# Backup for Vercel's GitHub App, which has stopped reliably receiving push events
+# for this repo. Uses a Vercel Deploy Hook (Project Settings > Git > Deploy Hooks)
+# stored in the VERCEL_DEPLOY_HOOK_URL repository secret.
+name: Deploy to Vercel
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: vercel-production
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Trigger Vercel deploy hook
+        env:
+          HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$HOOK_URL" ]; then
+            echo "::error::VERCEL_DEPLOY_HOOK_URL secret is not set"
+            exit 1
+          fi
+          status=$(curl -sS -o response.json -w "%{http_code}" -X POST "$HOOK_URL")
+          echo "Vercel responded with HTTP $status"
+          if [ "$status" -lt 200 ] || [ "$status" -ge 300 ]; then
+            echo "::error::Deploy hook failed"
+            exit 1
+          fi
+          echo "Deploy queued for ${GITHUB_SHA::7}"
