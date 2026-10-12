@@ -8,7 +8,8 @@ export const API_BASE = (() => {
   if (hostname === 'localhost' || hostname === '127.0.0.1') {
     return 'http://localhost:5001';
   }
-  return envBase || window.location.origin;
+  // Fallback keeps production working even if VITE_API_BASE is missing from the build env.
+  return (envBase || 'https://resume-builder-backend-zzqh.onrender.com').replace(/\/$/, '');
 })();
 
 const TOKEN_KEY = 'token';
