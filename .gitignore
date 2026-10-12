@@ -27,3 +27,4 @@ dist-ssr
 .vercel
 .claude/
 .env*
+!.env.example
