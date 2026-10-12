@@ -33,7 +33,7 @@ const AiToolsForm = ({ resumeData, setResumeData, resumeId }) => {
       toast.success('ATS Audit complete!')
     } catch (error) {
       console.error(error)
-      toast.error('Failed to run ATS Audit')
+      toast.error(error?.response?.data?.message || 'Failed to run ATS Audit')
     } finally {
       setIsAuditing(false)
     }
@@ -55,7 +55,7 @@ const AiToolsForm = ({ resumeData, setResumeData, resumeId }) => {
       toast.success('Resume tailored! Review changes below.')
     } catch (error) {
       console.error(error)
-      toast.error('Failed to tailor resume')
+      toast.error(error?.response?.data?.message || 'Failed to tailor resume')
     } finally {
       setIsTailoring(false)
     }
@@ -83,7 +83,7 @@ const AiToolsForm = ({ resumeData, setResumeData, resumeId }) => {
           tailoredExp = tailoredPreview.experience?.[index];
         }
 
-        if (tailoredExp) {
+        if (tailoredExp?.description) {
           return {
             ...exp,
             description: tailoredExp.description
@@ -94,7 +94,7 @@ const AiToolsForm = ({ resumeData, setResumeData, resumeId }) => {
 
       return {
         ...prev,
-        professional_summary: tailoredPreview.professional_summary,
+        professional_summary: tailoredPreview.professional_summary || prev.professional_summary,
         experience: updatedExperience
       }
     })
@@ -120,15 +120,16 @@ const AiToolsForm = ({ resumeData, setResumeData, resumeId }) => {
       toast.success('Cover letter generated!')
     } catch (error) {
       console.error(error)
-      toast.error('Failed to generate cover letter')
+      toast.error(error?.response?.data?.message || 'Failed to generate cover letter')
     } finally {
       setIsGeneratingLetter(false)
     }
   }
 
   const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text)
-    toast.success('Copied to clipboard!')
+    navigator.clipboard?.writeText(text)
+      .then(() => toast.success('Copied to clipboard!'))
+      .catch(() => toast.error('Could not copy to clipboard'))
   }
 
   const downloadCoverLetter = () => {
@@ -139,6 +140,7 @@ const AiToolsForm = ({ resumeData, setResumeData, resumeId }) => {
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
+    URL.revokeObjectURL(element.href);
   }
 
   return (

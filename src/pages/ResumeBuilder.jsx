@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { ArrowLeftIcon, Briefcase, ChevronLeft, ChevronRight, DownloadIcon, EyeIcon, EyeOffIcon, FileText, FolderIcon, GraduationCap, Share2Icon, Sparkles, User, Award, BookOpen, Heart } from 'lucide-react'
 import PersonalInfoForm from '../components/PersonalInfoForm'
@@ -21,6 +21,7 @@ import html2canvas from 'html2canvas-pro'
 const ResumeBuilder = () => {
 
   const {resumeId} = useParams()
+  const navigate = useNavigate()
 
   const [resumeData, setResumeData] = useState( {
     _id: '',
@@ -48,7 +49,12 @@ const ResumeBuilder = () => {
         }
 
     } catch (error) {
-      console.log(error.message)
+      if (error?.response?.status === 404) {
+        toast.error('Resume not found')
+        navigate('/app', { replace: true })
+      } else if (error?.response?.status !== 401) {
+        toast.error(error?.response?.data?.message || 'Failed to load resume')
+      }
     }
   }
 
@@ -90,7 +96,7 @@ const changeResumeVisibility = async () => {
 
   } catch (error) {
     console.error("Error changing visibility:", error);
-    toast.error("Failed to update resume visibility");
+    toast.error(error?.response?.data?.message || "Failed to update resume visibility");
   }
 };
 
@@ -99,10 +105,15 @@ const changeResumeVisibility = async () => {
     const resumeUrl = frontendUrl + '/view/' + resumeId;
 
     if(navigator.share) {
-      navigator.share({url: resumeUrl,text: "My Resume",})
+      navigator.share({url: resumeUrl,text: "My Resume",}).catch(() => {})
+    }
+    else if (navigator.clipboard) {
+      navigator.clipboard.writeText(resumeUrl)
+        .then(() => toast.success('Public link copied to clipboard'))
+        .catch(() => toast.error('Could not copy link'))
     }
     else {
-      alert('Share is not supported in this browser.')
+      toast(resumeUrl)
     }
     
   }

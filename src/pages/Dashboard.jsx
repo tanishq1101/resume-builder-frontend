@@ -330,6 +330,7 @@ const Dashboard = () => {
                 onChange={(e) => setTitle(e.target.value)}
                 value={title}
                 type="text"
+                autoFocus
                 placeholder="Enter Resume Title"
                 className="w-full px-4 py-2 mb-4 focus:border-green-600 ring-green-600"
                 required
@@ -371,6 +372,7 @@ const Dashboard = () => {
                 onChange={(e) => setTitle(e.target.value)}
                 value={title}
                 type="text"
+                autoFocus
                 placeholder="Resume Title"
                 className="w-full px-4 py-2 mb-4 focus:border-green-600 ring-green-600"
                 required
@@ -444,6 +446,7 @@ const Dashboard = () => {
                 onChange={(e) => setTitle(e.target.value)}
                 value={title}
                 type="text"
+                autoFocus
                 placeholder="Enter Resume Title"
                 className="w-full px-4 py-2 mb-4 focus:border-green-600 ring-green-600"
                 required

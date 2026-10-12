@@ -42,15 +42,20 @@ const Hero = () => {
                         >
                             {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
                         </button>
-                        <Link to='/app?state=register' className="hidden md:block px-6 py-2 bg-(--brand-primary) hover:bg-(--brand-primary-dark) active:scale-95 transition-all rounded-full text-white" hidden={user}>
-                            Get started
-                        </Link>
-                        <Link to='/app?state=login' className="hidden md:block px-6 py-2 border active:scale-95 hover:bg-slate-50 dark:hover:bg-gray-800 transition-all rounded-full text-slate-700 dark:text-gray-200 hover:text-slate-900 dark:hover:text-white dark:border-gray-600" hidden={user}>
-                            Login
-                        </Link>
-                        <Link to='/app' className='hidden md:block px-6 py-2 border active:scale-95 hover:bg-slate-50 dark:hover:bg-gray-800 transition-all rounded-full text-slate-700 dark:text-gray-200 hover:text-slate-900 dark:hover:text-white dark:border-gray-600' hidden={!user}>
-                            Dashboard
-                        </Link>
+                        {user ? (
+                            <Link to='/app' className='hidden md:block px-6 py-2 border active:scale-95 hover:bg-slate-50 dark:hover:bg-gray-800 transition-all rounded-full text-slate-700 dark:text-gray-200 hover:text-slate-900 dark:hover:text-white dark:border-gray-600'>
+                                Dashboard
+                            </Link>
+                        ) : (
+                            <>
+                                <Link to='/login?state=register' className="hidden md:block px-6 py-2 bg-(--brand-primary) hover:bg-(--brand-primary-dark) active:scale-95 transition-all rounded-full text-white">
+                                    Get started
+                                </Link>
+                                <Link to='/login?state=login' className="hidden md:block px-6 py-2 border active:scale-95 hover:bg-slate-50 dark:hover:bg-gray-800 transition-all rounded-full text-slate-700 dark:text-gray-200 hover:text-slate-900 dark:hover:text-white dark:border-gray-600">
+                                    Login
+                                </Link>
+                            </>
+                        )}
                     </div>
 
                     <button onClick={() => setMenuOpen(true)} className="md:hidden active:scale-90 transition dark:text-gray-200" >
@@ -66,6 +71,14 @@ const Hero = () => {
                     <a href="#features" className="text-white" onClick={() => setMenuOpen(false)}>Features</a>
                     <a href="#testimonials" className="text-white" onClick={() => setMenuOpen(false)}>Testimonials</a>
                     <a href="#cta" className="text-white" onClick={() => setMenuOpen(false)}>Contact</a>
+                    {user ? (
+                        <Link to='/app' className="text-white" onClick={() => setMenuOpen(false)}>Dashboard</Link>
+                    ) : (
+                        <>
+                            <Link to='/login?state=login' className="text-white" onClick={() => setMenuOpen(false)}>Login</Link>
+                            <Link to='/login?state=register' className="text-white" onClick={() => setMenuOpen(false)}>Sign up</Link>
+                        </>
+                    )}
                     <button onClick={() => setMenuOpen(false)} className="active:ring-3 active:ring-white aspect-square size-10 p-1 items-center justify-center bg-(--brand-primary) hover:bg-(--brand-primary-dark) transition text-white rounded-md flex" >
                         X
                     </button>
@@ -110,10 +123,10 @@ const Hero = () => {
                             Get started
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-right ml-1 size-4" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                         </Link>
-                        <button className="flex items-center gap-2 border border-slate-400 dark:border-gray-600 hover:bg-(--brand-primary-soft) dark:hover:bg-gray-800 transition rounded-full px-7 h-12 text-slate-700 dark:text-gray-200">
+                        <Link to='/app' className="flex items-center gap-2 border border-slate-400 dark:border-gray-600 hover:bg-(--brand-primary-soft) dark:hover:bg-gray-800 transition rounded-full px-7 h-12 text-slate-700 dark:text-gray-200">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-video size-5" aria-hidden="true"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"></path><rect x="2" y="6" width="14" height="12" rx="2"></rect></svg>
                             <span>Try demo</span>
-                        </button>
+                        </Link>
                     </div>
 
                     <p className="py-6 text-slate-600 dark:text-gray-400 mt-14">Trusting by leading brands, including</p>

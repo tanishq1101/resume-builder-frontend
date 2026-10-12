@@ -4,7 +4,7 @@ const authSlice = createSlice({
     name: 'auth',
     initialState: {
         user: null,
-        loading: true, // true until Clerk reports its initial auth state (isLoaded)
+        loading: true, // true until the stored session (if any) has been checked
     },
     reducers: {
         login(state, action) {

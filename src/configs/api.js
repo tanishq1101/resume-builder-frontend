@@ -11,25 +11,42 @@ export const API_BASE = (() => {
   return envBase || window.location.origin;
 })();
 
-// Set by App.jsx from Clerk's useAuth().getToken, so this axios module
-// (outside React) can still attach a fresh session token to every request.
-let getClerkToken = null;
-export const setClerkTokenGetter = (fn) => {
-  getClerkToken = fn;
+const TOKEN_KEY = 'token';
+
+// localStorage can throw (private mode, blocked storage), so never let it break the app.
+export const getToken = () => {
+  try {
+    return localStorage.getItem(TOKEN_KEY);
+  } catch {
+    return null;
+  }
+};
+
+export const setToken = (token) => {
+  try {
+    if (token) localStorage.setItem(TOKEN_KEY, token);
+    else localStorage.removeItem(TOKEN_KEY);
+  } catch {
+    // ignore
+  }
+};
+
+// App.jsx registers a callback so an expired/invalid session logs the user out everywhere.
+let onUnauthorized = null;
+export const setUnauthorizedHandler = (fn) => {
+  onUnauthorized = fn;
 };
 
 const api = axios.create({
-  baseURL: API_BASE,            // <-- important
+  baseURL: API_BASE,
   headers: { 'Content-Type': 'application/json' },
-  withCredentials: false       // change to true only if you use cookies
+  withCredentials: false
 });
 
-api.interceptors.request.use(async (config) => {
-  if (getClerkToken && !config.headers?.Authorization) {
-    const token = await getClerkToken();
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+api.interceptors.request.use((config) => {
+  const token = getToken();
+  if (token && !config.headers?.Authorization) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
 
   if (typeof FormData !== 'undefined' && config.data instanceof FormData) {
@@ -42,5 +59,17 @@ api.interceptors.request.use(async (config) => {
 
   return config;
 });
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const isAuthCall = /\/api\/users\/(login|register)$/.test(error?.config?.url || '');
+    if (error?.response?.status === 401 && !isAuthCall && getToken()) {
+      setToken(null);
+      onUnauthorized?.();
+    }
+    return Promise.reject(error);
+  }
+);
 
 export default api;

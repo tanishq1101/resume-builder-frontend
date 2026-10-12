@@ -7,8 +7,7 @@ import Preview from './pages/Preview.jsx'
 import { login, logout, setLoading } from './app/features/authSlice.js'
 import Layout from './pages/Layout.jsx'
 import { useDispatch } from 'react-redux'
-import api, { setClerkTokenGetter } from './configs/api.js'
-import { useAuth } from '@clerk/clerk-react'
+import api, { getToken, setToken, setUnauthorizedHandler } from './configs/api.js'
 
 import { Toaster } from 'react-hot-toast'
 
@@ -31,49 +30,43 @@ import Login from './pages/Login.jsx'
 const App = () => {
 
   const dispatch = useDispatch()
-  const { isLoaded, isSignedIn, getToken } = useAuth()
 
   const wakeUpBackend = async () => {
     try {
       // Send a background request to the backend root to wake up the Render server
       await api.get('/');
-      console.log("Backend server pinged and awake!");
-    } catch (error) {
-      console.log("Backend ping finished:", error.message);
+    } catch {
+      // ignore: this is only a warm-up ping
     }
   }
 
   useEffect(() => {
     wakeUpBackend()
-  }, [])
 
-  useEffect(() => {
-    // Give the axios instance a way to fetch a fresh Clerk session token per request.
-    setClerkTokenGetter(getToken)
-  }, [getToken])
+    // Any 401 from the API means the stored session is no longer valid.
+    setUnauthorizedHandler(() => dispatch(logout()))
 
-  useEffect(() => {
-    if (!isLoaded) return
-
-    if (!isSignedIn) {
-      dispatch(logout())
+    // Restore the session from a previously stored token, if there is one.
+    if (!getToken()) {
       dispatch(setLoading(false))
       return
     }
 
     (async () => {
       try {
-        const { data } = await api.post('/api/users/sync')
+        const { data } = await api.get('/api/users/me')
         dispatch(login({ user: data.user }))
       } catch (error) {
-        console.log("Failed to sync user profile:", error.message)
+        // Keep the token on network errors (server waking up); drop it if it was rejected.
+        if (error?.response?.status === 401 || error?.response?.status === 404) {
+          setToken(null)
+        }
         dispatch(logout())
       } finally {
         dispatch(setLoading(false))
       }
     })()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoaded, isSignedIn])
+  }, [dispatch])
 
   return (
     <>

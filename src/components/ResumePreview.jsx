@@ -8,7 +8,7 @@ import CreativeTemplate from '../assets/templates/CreativeTemplate'
 import TechTemplate from '../assets/templates/TechTemplate'
 
 
-const ResumePreview = ({data, template, accentColor, classes = " ", atsMode = false}) => {
+const ResumePreview = ({data, template, accentColor, classes = "", atsMode = false}) => {
 
     const displayAccent = atsMode ? "#111827" : accentColor;
 
@@ -40,11 +40,11 @@ const ResumePreview = ({data, template, accentColor, classes = " ", atsMode = fa
 
   return (
     <div className={`w-full ${atsMode ? 'bg-white' : 'bg-gray-100'}`}>
-        <div id='resume-preview' className={'bg-white w-full border border-gray-200 print:shadow-none print:border-none' + classes}>
+        <div id='resume-preview' className={`bg-white w-full border border-gray-200 print:shadow-none print:border-none ${classes}`}>
         {renderTemplate()}
         </div>
 
-        <style jsx>
+        <style>
             {`
             @page {
                 size: letter;

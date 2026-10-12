@@ -41,7 +41,7 @@ const PersonalInfoForm = ({ data, onChange, removeBackground, setRemoveBackgroun
                         onChange={(e) => handleImageChange("image", e.target.files[0])} />
                 </label>
                 {
-                    typeof data.image === 'object' && (
+                    data.image instanceof File && (
                         <div className='flex flex-col gap-1 pl-4 text-sm'>
                             <p>Remove Background</p>
                             <label className='relative inline-flex items-center cursor-pointer text-gray-500 gap-3'>
