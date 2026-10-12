@@ -63,7 +63,7 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    const isAuthCall = /\/api\/users\/(login|register)$/.test(error?.config?.url || '');
+    const isAuthCall = /\/api\/users\/(login|register|forgot-password|reset-password)$/.test(error?.config?.url || '');
     if (error?.response?.status === 401 && !isAuthCall && getToken()) {
       setToken(null);
       onUnauthorized?.();

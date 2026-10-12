@@ -137,6 +137,14 @@ const Login = () => {
             </button>
           </Field>
 
+          {!isRegister && (
+            <div className='flex justify-end -mt-2'>
+              <Link to='/forgot-password' className='text-xs text-(--brand-primary) dark:text-(--brand-primary-light) hover:underline'>
+                Forgot password?
+              </Link>
+            </div>
+          )}
+
           {isRegister && (
             <Field icon={Lock} label='Confirm password'>
               <input className={inputClass} type={showPassword ? 'text' : 'password'} autoComplete='new-password'

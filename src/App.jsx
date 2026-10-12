@@ -26,6 +26,8 @@ import ContactPage from './pages/footer/ContactPage.jsx'
 
 // Auth pages
 import Login from './pages/Login.jsx'
+import ForgotPassword from './pages/ForgotPassword.jsx'
+import ResetPassword from './pages/ResetPassword.jsx'
 
 const App = () => {
 
@@ -95,6 +97,8 @@ const App = () => {
 
         {/* Auth */}
         <Route path='/login' element={<Login />} />
+        <Route path='/forgot-password' element={<ForgotPassword />} />
+        <Route path='/reset-password/:token' element={<ResetPassword />} />
 
         <Route path='app' element={<Layout />}>
           <Route index element={<Dashboard />} />
